@@ -66,50 +66,37 @@ Only proceed to Step 1b if you have no native worktree tool available.
 
 #### Directory Selection
 
-Follow this priority order. Explicit user preference always beats observed filesystem state.
+Use a single location: `.worktrees/` inside the repository root.
 
-1. **Check your instructions for a declared worktree directory preference.** If the user has already specified one, use it without asking.
-
-2. **Check for an existing project-local worktree directory:**
-   ```bash
-   ls -d .worktrees 2>/dev/null     # Preferred (hidden)
-   ls -d worktrees 2>/dev/null      # Alternative
-   ```
-   If found, use it. If both exist, `.worktrees` wins.
-
-3. **Check for an existing global directory:**
-   ```bash
-   project=$(basename "$(git rev-parse --show-toplevel)")
-   ls -d ~/.config/superpowers/worktrees/$project 2>/dev/null
-   ```
-   If found, use it (backward compatibility with legacy global path).
-
-4. **If there is no other guidance available**, default to `.worktrees/` at the project root.
-
-5. **Optional sibling-directory layout** (only when the user or project docs declare it): keep worktrees outside the repo tree next to the project folder:
-
+1. Set the repository root and worktree base directory:
    ```bash
    SOURCE_ROOT=$(git rev-parse --show-toplevel)
-   PROJECT_ROOT=$(basename "$SOURCE_ROOT")
-   LOCATION="../${PROJECT_ROOT}-worktrees"
-   # path="$LOCATION/$BRANCH_NAME"
+   LOCATION="$SOURCE_ROOT/.worktrees"
    ```
 
-   This avoids nesting worktrees under `SOURCE_ROOT`; `.gitignore` checks for `.worktrees` / `worktrees` under the repo do not apply here.
+2. Ensure the directory exists:
+   ```bash
+   mkdir -p "$LOCATION"
+   ```
 
-#### Safety Verification (project-local directories only)
+3. Always create the worktree at:
+   ```bash
+   path="$LOCATION/$BRANCH_NAME"
+   ```
 
-**MUST verify directory is ignored before creating worktree:**
+No global/sibling alternatives should be used unless the user explicitly overrides this rule for a one-off task.
+
+#### Safety Verification
+
+**MUST verify `.worktrees/` is ignored before creating worktree:**
 
 ```bash
-git check-ignore -q .worktrees 2>/dev/null || git check-ignore -q worktrees 2>/dev/null
+git check-ignore -q .worktrees 2>/dev/null
 ```
 
-**If NOT ignored:** Add to .gitignore, commit the change, then proceed.
+**If NOT ignored:** Add `.worktrees/` to `.gitignore`, commit the change, then proceed.
 
 **Why critical:** Prevents accidentally committing worktree contents to repository.
-
-Global directories (`~/.config/superpowers/worktrees/`) need no verification.
 
 #### Create the Worktree
 
@@ -119,9 +106,8 @@ Global directories (`~/.config/superpowers/worktrees/`) need no verification.
 project=$(basename "$(git rev-parse --show-toplevel)")
 SOURCE_ROOT=$(git rev-parse --show-toplevel)
 
-# Determine path based on chosen location
-# For project-local: path="$LOCATION/$BRANCH_NAME"
-# For global: path="~/.config/superpowers/worktrees/$project/$BRANCH_NAME"
+# Path is always inside repo-local .worktrees/
+path="$LOCATION/$BRANCH_NAME"
 
 git worktree add "$path" -b "$BRANCH_NAME"
 cd "$path"
@@ -283,12 +269,7 @@ Main checkout left untouched
 | In a submodule | Treat as normal repo (Step 0 guard) |
 | Native worktree tool available | Use it (Step 1a) |
 | No native tool | Git worktree fallback (Step 1b) |
-| `.worktrees/` exists | Use it (verify ignored) |
-| `worktrees/` exists | Use it (verify ignored) |
-| Both exist | Use `.worktrees/` |
-| Neither exists | Check instruction file, then default `.worktrees/` |
-| User/project declares sibling worktrees | `../${PROJECT_ROOT}-worktrees` (Step 1b item 5) |
-| Global path exists | Use it (backward compat) |
+| Need a worktree location | Use `<repo>/.worktrees/<branch>` |
 | Directory not ignored | Add to .gitignore + commit |
 | Permission error on create | Sandbox fallback, work in place |
 | Tests fail during baseline | Report failures + ask |
@@ -322,7 +303,7 @@ Main checkout left untouched
 ### Assuming directory location
 
 - **Problem:** Creates inconsistency, violates project conventions
-- **Fix:** Follow priority: existing > global legacy > instruction file > default
+- **Fix:** Always use `<repo>/.worktrees/<branch>` unless user explicitly overrides for one task
 
 ### Proceeding with failing tests
 
@@ -365,7 +346,7 @@ Main checkout left untouched
 **Always:**
 - Run Step 0 detection first
 - Prefer native tools over git fallback
-- Follow directory priority: existing > global legacy > instruction file > default
+- Use `<repo>/.worktrees/<branch>` as the standard location
 - Verify directory is ignored for project-local
 - Auto-detect and run project setup
 - Verify clean test baseline
