@@ -51,32 +51,6 @@ All these files reference the same core rules in `docs/base-standards.md`, ensur
 
 ## 🚀 Quick Start
 
-### Recommended: Automated Setup (Quick Start)
-
-This is the fastest and most reliable way to install Specboot into an existing project.
-It is an automated alternative to the manual setup steps below (manual steps 1–4).
-
-Open your coding agent in your project root and say:
-
-```text
-Please read and follow the instructions in this file to set up LIDR's spec-driven development workflow in my project: https://raw.githubusercontent.com/LIDR-academy/lidr-specboot/main/setup-sdd.md. Curl recommended
-```
-
-The agent will:
-
-- Install and initialize OpenSpec (if needed)
-- Import this repository’s `docs/` and `ai-specs/`
-- Update your OpenSpec config context (`config.yml` or `openspec/config.yaml`)
-- Store these onboarding instructions as `ai-specs/specboot-instructions.md` (so your project README can remain yours)
-
-Works with Claude Code, Cursor, Codex, Gemini, or any agent that can read and execute repository setup instructions.
-
-Important: even after automated setup, you still need to **review and customize** `docs/` so it matches your real stack, domain, and architecture (when applicable).
-
-### Alternative: Manual Setup (Steps 1–4)
-
-Use this if you don’t want the automation in `setup-sdd.md`.
-
 ### 1) Install and Initialize OpenSpec
 
 OpenSpec works great with this repository and is recommended for a spec-driven workflow.
@@ -179,7 +153,7 @@ rules:
 
 ## ✅ Verify Configuration (Required)
 
-Do this regardless of which setup path you chose (Quick Start or Manual Setup).
+Do this after completing the setup steps above.
 
 Your AI copilot should automatically load:
 
@@ -198,12 +172,12 @@ The recommended workflow in this repository uses official OpenSpec commands:
 1. **`/enrich-us`** (optional): refine a vague user story or idea
 2. **`/new`**: create a new OpenSpec change (currently a copy of `/ff`)
 3. **`/ff`**: create all required OpenSpec artifacts (feature file, tasks, etc.)
-   - Running `/new` followed by `/ff` is equivalent to the `new propose` command
+   - Running `/new` followed by `/ff` is equivalent to the new `/propose` command
 4. **`/apply`**: implement tasks one by one
 5. **`/verify`**: validate implementation against the change artifacts
-6. **`/adversarial-review`**: independent red-team review before archiving
+6. **`/adversarial-review`**: independent red-team code review before archiving
 7. **`/archive`**: archive the completed change
-8. **`/commit`**: create focused commit(s) after verification
+8. **`/commit`**: create focused commit(s) and manages Pull Request after verification
 Workflow reference image:
 
 ![OpenSpec custom workflow reference](https://drive.google.com/uc?export=view&id=1Bu8hysVBlpBZgH3SVgRh3knHS7W4X5ud)
