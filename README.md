@@ -101,6 +101,8 @@ This step is required. If you skip it, your AI assistant will use generic techni
 
 Update the files in `docs/` to match your stack, architecture patterns, domain language, API contracts, and data model.
 
+You can automate this with the **`setup-docs`** skill (`/setup-docs`): it analyzes your real codebase and rewrites every file in `docs/` accordingly, asking before overwriting if `docs/` was already customized in a previous run.
+
 For detailed guidance and ready-to-use prompt examples, see [Customization](#-customization).
 
 ### 4) Point OpenSpec Config to Your `docs/` and `ai-specs/`
@@ -223,7 +225,7 @@ Skills live in `ai-specs/skills/` and are mirrored into `.claude/skills/` and `.
 - **`writing-skills`** — Author and verify new skills (or refactor existing ones) following TDD-style validation before deployment. Use when adding a skill to `ai-specs/skills/` or editing an existing `SKILL.md`.
 - **`code-auditing`** — Run a systematic 6-phase code quality audit covering security, performance, type safety, dead code, and library best practices, ending with a prioritized action plan. Use for pre-release reviews, technical-debt sweeps, and dependency audits.
 
-Other active skills in this repository: `commit`, `explain`, `meta-prompt`, `update-docs`. See each `ai-specs/skills/<name>/SKILL.md` for the full instructions.
+Other active skills in this repository: `commit`, `explain`, `meta-prompt`, `setup-docs`, `update-docs`. See each `ai-specs/skills/<name>/SKILL.md` for the full instructions.
 
 ## 📖 Core Development Rules
 
@@ -299,6 +301,8 @@ All development follows principles defined in `docs/base-standards.md`:
 5. **Keep the symlink structure**: Remember to create relative symlinks from `.claude` and `.cursor` to the corresponding `ai-specs/agents` and `ai-specs/skills` entries to keep it consistent
 
 ### Prompt Example: Adapt Technical Context
+
+If you're using Claude Code (or another copilot with skill support), run `/setup-docs` instead — it automates this exact prompt against your real codebase. The prompt below is provided as a manual fallback for other copilots.
 
 Use this prompt with your copilot to adapt the `docs/` folder while preserving the same baseline structure:
 
