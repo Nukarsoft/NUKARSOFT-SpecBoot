@@ -1,13 +1,13 @@
 ---
 name: update-docs
-description: Identify and update required technical documentation based on implemented changes.
+description: Identifica y actualiza la documentación técnica requerida en base a los cambios implementados.
 author: LIDR.co
 version: 1.0.0
 ---
-# update-docs Skill
+# Skill update-docs
 
-Use it when this workflow is required in the project.
+Usalo cuando este flujo de trabajo sea requerido en el proyecto.
 
-## Instructions
+## Instrucciones
 
-Use `docs/documentation-standards.md` to update whatever documentation is needed according to the changes made
+Usá `docs/documentation-standards.md` para actualizar la documentación que sea necesaria según los cambios realizados

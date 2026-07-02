@@ -1,86 +1,86 @@
 ---
 name: adversarial-review
-description: Use when the user requests an adversarial review, red-team review, devil's advocate check, or independent verification pass before archiving an OpenSpec change.
+description: Usar cuando el usuario solicite una revisión adversarial, revisión red-team, verificación tipo "abogado del diablo", o una pasada de verificación independiente antes de archivar un cambio de OpenSpec.
 author: LIDR.co
 version: 1.0.0
 ---
 
-# adversarial-review Skill
+# Skill adversarial-review
 
-Act as an **independent adversarial reviewer**: assume gaps, flaws, or unsafe behavior may exist until you have argued against them with evidence.
+Actuá como un **revisor adversarial independiente**: asumí que pueden existir vacíos, fallas o comportamiento inseguro hasta que hayas argumentado en contra de ellos con evidencia.
 
-This skill is intended for the **verification window** of spec-driven development (after implementation, **before** archiving), when the human runs a **different agent or session** than the one that implemented the change.
+Este skill está pensado para la **ventana de verificación** del desarrollo guiado por especificaciones (después de la implementación, **antes** de archivar), cuando el humano ejecuta un **agente o sesión distinta** de la que implementó el cambio.
 
-Do **not** prescribe which agent, model, or IDE to use. That is the human's choice.
+**No** prescribas qué agente, modelo o IDE usar. Esa es decisión del humano.
 
-## Inputs
+## Entradas
 
-- Optional context from user (same style as `show-spec-working`):
-  - Direct ticket id in text (for example: `SCRUM-10`)
-  - Feature or change name
+- Contexto opcional del usuario (mismo estilo que `show-spec-working`):
+  - ID de ticket directo en el texto (por ejemplo: `SCRUM-10`)
+  - Nombre de la funcionalidad o cambio
   - Endpoint(s)
-  - Frontend route(s)
-  - **Pull request**: URL, or host owner/repo and number (for example: `https://github.com/org/repo/pull/42` or `owner/repo#42`)
-- If missing, infer from the current session (active change, branch, or OpenSpec folder).
+  - Ruta(s) del frontend
+  - **Pull request**: URL, o host owner/repo y número (por ejemplo: `https://github.com/org/repo/pull/42` o `owner/repo#42`)
+- Si falta, inferilo de la sesión actual (cambio activo, branch, o carpeta de OpenSpec).
 
-Resolve scope in this order: explicit ticket or change name → PR when given → current active work.
+Resolvé el alcance en este orden: ticket o nombre de cambio explícito → PR si se indica → trabajo activo actual.
 
-## Mindset (adversarial review)
+## Mentalidad (revisión adversarial)
 
-Borrowed from common red-team / adversarial practice:
+Tomado de la práctica común de red-team / adversarial:
 
-- **Try to break the system**, not only to confirm happy paths.
-- **Hunt incorrect assumptions** about data shape, timing, ordering, authz, idempotency, and error handling.
-- **Trace cross-boundary and composition risks**: pieces that look fine in isolation but fail together (multi-file, API plus UI, retries plus side effects).
-- **Treat the diff as incomplete context**: missing tests, missing negative paths, or spec drift can hide issues.
-- **Calibrate depth** to risk: auth, payments, PII, privilege boundaries, and data mutation deserve stricter scrutiny.
+- **Intentá romper el sistema**, no solo confirmar los casos felices.
+- **Buscá suposiciones incorrectas** sobre forma de los datos, timing, orden, autorización, idempotencia y manejo de errores.
+- **Rastreá riesgos de composición y cruce de límites**: piezas que se ven bien de forma aislada pero fallan juntas (multi-archivo, API más UI, reintentos más efectos secundarios).
+- **Tratá el diff como contexto incompleto**: tests faltantes, casos negativos faltantes, o desalineación de la especificación pueden ocultar problemas.
+- **Calibrá la profundidad** según el riesgo: autenticación, pagos, PII, límites de privilegios y mutación de datos merecen un escrutinio más estricto.
 
-## Workflow
+## Flujo de trabajo
 
-### Step 1 — Load the specification side first
+### Paso 1 — Cargar primero el lado de la especificación
 
-1. Identify the OpenSpec change directory and read the relevant artifacts (proposal, design, specs, scenarios, `tasks.md`).
-2. Extract **acceptance criteria and explicit non-goals**. List what must be true for "done."
-3. Note anything **underspecified** (ambiguous acceptance, missing error cases, missing security constraints).
+1. Identificá el directorio del cambio de OpenSpec y leé los artefactos relevantes (proposal, design, specs, scenarios, `tasks.md`).
+2. Extraé los **criterios de aceptación y los no-objetivos explícitos**. Listá qué debe ser cierto para considerarlo "hecho".
+3. Anotá cualquier cosa **subespecificada** (aceptación ambigua, casos de error faltantes, restricciones de seguridad faltantes).
 
-### Step 2 — Load the implementation side
+### Paso 2 — Cargar el lado de la implementación
 
-1. If a **PR** was provided, treat it as the primary implementation surface:
-   - Read the PR description and review the full diff scope (not only the default file ordering).
-   - Map **files and changes** to spec sections and tasks.
-2. If no PR: use `git diff` against the merge base or the branch associated with the change, per project convention.
+1. Si se proporcionó un **PR**, tratalo como la superficie principal de implementación:
+   - Leé la descripción del PR y revisá el alcance completo del diff (no solo el orden de archivos por defecto).
+   - Mapeá **archivos y cambios** a las secciones de la spec y a las tareas.
+2. Si no hay PR: usá `git diff` contra el merge base o el branch asociado al cambio, según la convención del proyecto.
 
-### Step 3 — Adversarial pass (refute, do not rubber-stamp)
+### Paso 3 — Pasada adversarial (refutar, no aprobar automáticamente)
 
-For each acceptance criterion or scenario:
+Para cada criterio de aceptación o escenario:
 
-1. State how the implementation **could still fail** while the author believed it passed (wrong input, partial failure, double-submit, stale cache, wrong role, race, empty state, oversized payload).
-2. Check **negative and abuse cases** where relevant (validation bypass strings, IDOR-style access patterns, replay, conflict handling).
-3. Check **tests and verification artifacts**: do they **prove** the criterion, or only the happy path?
-4. Record **spec vs code mismatches** (spec says X, code does Y) as first-class findings.
+1. Indicá cómo la implementación **todavía podría fallar** aunque el autor creyera que pasaba (entrada incorrecta, fallo parcial, doble envío, caché desactualizada, rol incorrecto, condición de carrera, estado vacío, payload de tamaño excesivo).
+2. Revisá **casos negativos y de abuso** cuando corresponda (strings de bypass de validación, patrones de acceso tipo IDOR, replay, manejo de conflictos).
+3. Revisá **tests y artefactos de verificación**: ¿realmente **prueban** el criterio, o solo el camino feliz?
+4. Registrá las **discrepancias entre spec y código** (la spec dice X, el código hace Y) como hallazgos de primer nivel.
 
-### Step 4 — Severity and recommendations
+### Paso 4 — Severidad y recomendaciones
 
-Classify each finding:
+Clasificá cada hallazgo:
 
-- **Blocker**: incorrect behavior, security/privacy issue, or spec violation that should stop archive.
-- **Major**: likely bug or significant gap; fix or spec update required before archive.
-- **Minor**: clarity, maintainability, or low-risk gap; can follow up.
-- **Question / assumption**: needs human or author confirmation.
+- **Bloqueante**: comportamiento incorrecto, problema de seguridad/privacidad, o violación de la spec que debería detener el archivado.
+- **Mayor**: bug probable o vacío significativo; se requiere corrección o actualización de la spec antes de archivar.
+- **Menor**: claridad, mantenibilidad, o vacío de bajo riesgo; puede quedar como seguimiento.
+- **Pregunta / suposición**: necesita confirmación del humano o del autor.
 
-For each finding, state whether the fix belongs in **code**, **tests**, **OpenSpec artifacts** (scenarios, specs, tasks), or **documentation**.
+Para cada hallazgo, indicá si la corrección corresponde a **código**, **tests**, **artefactos de OpenSpec** (scenarios, specs, tasks), o **documentación**.
 
-### Step 5 — Verdict
+### Paso 5 — Veredicto
 
-End with a clear verdict:
+Terminá con un veredicto claro:
 
-- **PASS (adversarial)**: no blockers or majors; minors listed optionally.
-- **PASS WITH GAPS**: minors only but tracked.
-- **FAIL**: at least one blocker or major until addressed.
+- **PASS (adversarial)**: sin bloqueantes ni mayores; menores listados opcionalmente.
+- **PASS CON VACÍOS**: solo menores, pero registrados.
+- **FAIL**: al menos un bloqueante o mayor sin resolver.
 
-## Output format
+## Formato de salida
 
-Use this structure in chat:
+Usá esta estructura en el chat:
 
 ```markdown
 ## Adversarial review
@@ -104,12 +104,12 @@ PASS | PASS WITH GAPS | FAIL
 - ...
 ```
 
-## Guardrails
+## Barreras de protección (guardrails)
 
-- **Do not** praise implementation to "balance" criticism unless a strength **directly mitigates a documented risk**.
-- **Do not** skip reading OpenSpec artifacts when they exist in the repo.
-- If you cannot access the PR or diff, say so and list exactly what is needed to continue.
+- **No** elogies la implementación para "balancear" la crítica, a menos que una fortaleza **mitigue directamente un riesgo documentado**.
+- **No** te saltees la lectura de los artefactos de OpenSpec cuando existan en el repo.
+- Si no podés acceder al PR o al diff, decilo y listá exactamente qué se necesita para continuar.
 
-## Completion
+## Finalización
 
-Always end with the verdict and whether archiving is **advisable** in the current state.
+Terminá siempre con el veredicto y si archivar es **recomendable** en el estado actual.

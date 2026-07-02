@@ -1,23 +1,23 @@
 ---
 name: using-git-worktrees
-description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback
+description: Usar al comenzar trabajo de una feature que necesita aislamiento del workspace actual o antes de ejecutar planes de implementación - asegura que exista un workspace aislado mediante herramientas nativas o, como alternativa, git worktree
 author: LIDR.co
 version: 1.0.0
 ---
 
-# Using Git Worktrees
+# Usando Git Worktrees
 
-## Overview
+## Descripción general
 
-Ensure work happens in an isolated workspace. Prefer your platform's native worktree tools. Fall back to manual git worktrees only when no native tool is available.
+Asegurate de que el trabajo ocurra en un workspace aislado. Preferí las herramientas nativas de worktree de tu plataforma. Recurrí a git worktrees manuales solo cuando no haya ninguna herramienta nativa disponible.
 
-**Core principle:** Detect existing isolation first. Then use native tools. Then fall back to git. Never fight the harness.
+**Principio central:** Detectá primero el aislamiento existente. Luego usá herramientas nativas. Luego recurrí a git como alternativa. Nunca vayas en contra del harness.
 
-**Announce at start:** "I'm using the using-git-worktrees skill to set up an isolated workspace."
+**Anunciá al comenzar:** "Estoy usando el skill using-git-worktrees para configurar un workspace aislado."
 
-## Step 0: Detect Existing Isolation
+## Paso 0: Detectar aislamiento existente
 
-**Before creating anything, check if you are already in an isolated workspace.**
+**Antes de crear nada, verificá si ya estás en un workspace aislado.**
 
 ```bash
 GIT_DIR=$(cd "$(git rev-parse --git-dir)" 2>/dev/null && pwd -P)
@@ -25,82 +25,82 @@ GIT_COMMON=$(cd "$(git rev-parse --git-common-dir)" 2>/dev/null && pwd -P)
 BRANCH=$(git branch --show-current)
 ```
 
-**Submodule guard:** `GIT_DIR != GIT_COMMON` is also true inside git submodules. Before concluding "already in a worktree," verify you are not in a submodule:
+**Resguardo para submódulos:** `GIT_DIR != GIT_COMMON` también es verdadero dentro de submódulos de git. Antes de concluir "ya estoy en un worktree", verificá que no estés en un submódulo:
 
 ```bash
 # If this returns a path, you're in a submodule, not a worktree — treat as normal repo
 git rev-parse --show-superproject-working-tree 2>/dev/null
 ```
 
-**If `GIT_DIR != GIT_COMMON` (and not a submodule):** You are already in a linked worktree. Skip to Step 3 (Project Setup). Do NOT create another worktree.
+**Si `GIT_DIR != GIT_COMMON` (y no es un submódulo):** Ya estás en un worktree vinculado. Saltá al Paso 3 (Configuración del proyecto). NO crees otro worktree.
 
-Report with branch state:
-- On a branch: "Already in isolated workspace at `<path>` on branch `<name>`."
-- Detached HEAD: "Already in isolated workspace at `<path>` (detached HEAD, externally managed). Branch creation needed at finish time."
+Reportá con el estado de la rama:
+- En una rama: "Ya estoy en un workspace aislado en `<path>` en la rama `<name>`."
+- HEAD separado (detached): "Ya estoy en un workspace aislado en `<path>` (HEAD separado, gestionado externamente). Se necesitará crear una rama al finalizar."
 
-**If `GIT_DIR == GIT_COMMON` (or in a submodule):** You are in a normal repo checkout.
+**Si `GIT_DIR == GIT_COMMON` (o estás en un submódulo):** Estás en un checkout de repositorio normal.
 
-Has the user already indicated their worktree preference in your instructions? If not, ask for consent before creating a worktree:
+¿El usuario ya indicó su preferencia sobre worktrees en tus instrucciones? Si no, pedí consentimiento antes de crear un worktree:
 
-> "Would you like me to set up an isolated worktree? It protects your current branch from changes."
+> "¿Querés que configure un worktree aislado? Protege tu rama actual de los cambios."
 
-Honor any existing declared preference without asking. If the user declines consent, work in place and skip to Step 3.
+Respetá cualquier preferencia ya declarada sin preguntar. Si el usuario rechaza el consentimiento, trabajá en el lugar y saltá al Paso 3.
 
-## Step 1: Create Isolated Workspace
+## Paso 1: Crear un workspace aislado
 
-**You have two mechanisms. Try them in this order.**
+**Tenés dos mecanismos. Probalos en este orden.**
 
-### 1a. Native Worktree Tools (preferred)
+### 1a. Herramientas nativas de worktree (preferido)
 
-The user has asked for an isolated workspace (Step 0 consent). Do you already have a way to create a worktree? It might be a tool with a name like `EnterWorktree`, `WorktreeCreate`, a `/worktree` command, or a `--worktree` flag. If you do, use it and skip to Step 3.
+El usuario pidió un workspace aislado (consentimiento del Paso 0). ¿Ya tenés una forma de crear un worktree? Podría ser una herramienta con un nombre como `EnterWorktree`, `WorktreeCreate`, un comando `/worktree`, o un flag `--worktree`. Si la tenés, usala y saltá al Paso 3.
 
-Native tools handle directory placement, branch creation, and cleanup automatically. Using `git worktree add` when you have a native tool creates phantom state your harness can't see or manage.
+Las herramientas nativas gestionan automáticamente la ubicación del directorio, la creación de la rama y la limpieza. Usar `git worktree add` cuando tenés una herramienta nativa crea un estado fantasma que tu harness no puede ver ni gestionar.
 
-If the native flow does not propagate Claude/Cursor settings and the user expects parity with the main checkout, copy `.claude/settings.json` and `.claude/settings.local.json` from the primary workspace using the same loop as Step 1b **after** the native tool finishes—only when files exist on disk.
+Si el flujo nativo no propaga la configuración de Claude/Cursor y el usuario espera paridad con el checkout principal, copiá `.claude/settings.json` y `.claude/settings.local.json` desde el workspace principal usando el mismo bucle que el Paso 1b **después** de que la herramienta nativa termine, solo cuando los archivos existan en disco.
 
-Only proceed to Step 1b if you have no native worktree tool available.
+Solo avanzá al Paso 1b si no tenés ninguna herramienta nativa de worktree disponible.
 
-### 1b. Git Worktree Fallback
+### 1b. Alternativa: Git Worktree
 
-**Only use this if Step 1a does not apply** — you have no native worktree tool available. Create a worktree manually using git.
+**Usá esto solo si el Paso 1a no aplica** — no tenés ninguna herramienta nativa de worktree disponible. Creá un worktree manualmente usando git.
 
-#### Directory Selection
+#### Selección de directorio
 
-Use a single location: `.worktrees/` inside the repository root.
+Usá una única ubicación: `.worktrees/` dentro de la raíz del repositorio.
 
-1. Set the repository root and worktree base directory:
+1. Definí la raíz del repositorio y el directorio base de worktrees:
    ```bash
    SOURCE_ROOT=$(git rev-parse --show-toplevel)
    LOCATION="$SOURCE_ROOT/.worktrees"
    ```
 
-2. Ensure the directory exists:
+2. Asegurate de que el directorio exista:
    ```bash
    mkdir -p "$LOCATION"
    ```
 
-3. Always create the worktree at:
+3. Creá siempre el worktree en:
    ```bash
    path="$LOCATION/$BRANCH_NAME"
    ```
 
-No global/sibling alternatives should be used unless the user explicitly overrides this rule for a one-off task.
+No deben usarse alternativas globales o hermanas (sibling) a menos que el usuario anule explícitamente esta regla para una tarea puntual.
 
-#### Safety Verification
+#### Verificación de seguridad
 
-**MUST verify `.worktrees/` is ignored before creating worktree:**
+**DEBE verificarse que `.worktrees/` esté ignorado antes de crear el worktree:**
 
 ```bash
 git check-ignore -q .worktrees 2>/dev/null
 ```
 
-**If NOT ignored:** Add `.worktrees/` to `.gitignore`, commit the change, then proceed.
+**Si NO está ignorado:** Agregá `.worktrees/` a `.gitignore`, commiteá el cambio y luego continuá.
 
-**Why critical:** Prevents accidentally committing worktree contents to repository.
+**Por qué es crítico:** Evita commitear accidentalmente el contenido del worktree al repositorio.
 
-#### Create the Worktree
+#### Crear el worktree
 
-**Capture the main checkout root before `git worktree add`.** After `cd` into the new worktree, `git rev-parse --show-toplevel` points at the worktree directory, not the checkout where `.claude/settings*.json` usually lives.
+**Capturá la raíz del checkout principal antes de `git worktree add`.** Después de hacer `cd` al nuevo worktree, `git rev-parse --show-toplevel` apunta al directorio del worktree, no al checkout donde normalmente vive `.claude/settings*.json`.
 
 ```bash
 project=$(basename "$(git rev-parse --show-toplevel)")
@@ -113,15 +113,15 @@ git worktree add "$path" -b "$BRANCH_NAME"
 cd "$path"
 ```
 
-**Sandbox fallback:** If `git worktree add` fails with a permission error (sandbox denial), tell the user the sandbox blocked worktree creation and you're working in the current directory instead. Then run setup and baseline tests in place.
+**Alternativa por sandbox:** Si `git worktree add` falla con un error de permisos (denegación del sandbox), avisale al usuario que el sandbox bloqueó la creación del worktree y que vas a trabajar en el directorio actual en su lugar. Luego ejecutá la configuración y los tests base en el lugar.
 
-#### Copy Claude configuration (Step 1b only)
+#### Copiar la configuración de Claude (solo Paso 1b)
 
-After creating the worktree with git (Step 1b), copy local Claude settings from the **main checkout** so Cursor/Claude CLI behavior matches the primary workspace. These files are often untracked.
+Después de crear el worktree con git (Paso 1b), copiá la configuración local de Claude desde el **checkout principal** para que el comportamiento de Cursor/Claude CLI coincida con el del workspace principal. Estos archivos suelen no estar versionados (untracked).
 
-Do **not** copy if the user declines or if a native tool (Step 1a) already propagates settings—respect the harness.
+**No** copies si el usuario lo rechaza o si una herramienta nativa (Paso 1a) ya propaga la configuración — respetá el harness.
 
-Run **after** `cd "$path"` (still using `SOURCE_ROOT` captured above):
+Ejecutá esto **después** de `cd "$path"` (usando todavía el `SOURCE_ROOT` capturado antes):
 
 ```bash
 copied_claude_settings=false
@@ -139,11 +139,11 @@ if [ "$copied_claude_settings" = false ]; then
 fi
 ```
 
-**Symlinks:** If the source tree uses symlinks for `.claude` (e.g. `.claude/skills` → `../../ai-specs/skills`), copying only these JSON files does not recreate symlink targets. Either repeat the same symlink layout in the worktree or rely on project-relative paths inside `settings.json`.
+**Symlinks:** Si el árbol de origen usa symlinks para `.claude` (ej: `.claude/skills` → `../../ai-specs/skills`), copiar solo estos archivos JSON no recrea los destinos de los symlinks. Recreá el mismo esquema de symlinks en el worktree o basate en rutas relativas al proyecto dentro de `settings.json`.
 
-## Step 3: Project Setup
+## Paso 3: Configuración del proyecto
 
-Auto-detect and run appropriate setup:
+Detectá automáticamente y ejecutá la configuración correspondiente:
 
 ```bash
 # Node.js
@@ -160,20 +160,20 @@ if [ -f pyproject.toml ]; then poetry install; fi
 if [ -f go.mod ]; then go mod download; fi
 ```
 
-## Step 4: Verify Clean Baseline
+## Paso 4: Verificar una línea base limpia
 
-Run tests to ensure workspace starts clean:
+Ejecutá los tests para asegurarte de que el workspace arranque limpio:
 
 ```bash
 # Use project-appropriate command
 npm test / cargo test / pytest / go test ./...
 ```
 
-**If tests fail:** Report failures, ask whether to proceed or investigate.
+**Si los tests fallan:** Reportá las fallas, preguntá si continuar o investigar.
 
-**If tests pass:** Report ready.
+**Si los tests pasan:** Reportá que está listo.
 
-### Report
+### Reporte
 
 ```
 Worktree ready at <full-path>
@@ -182,47 +182,47 @@ Tests passing (<N> tests, 0 failures)
 Ready to implement <feature-name>
 ```
 
-## Step 5: Cleanup — Remove the Worktree When Done
+## Paso 5: Limpieza — Eliminar el worktree cuando termines
 
-**Run cleanup once the work is complete.** "Done" means: branch merged, PR closed, the experiment was discarded, or the user has explicitly confirmed they no longer need the isolated workspace. Never remove a worktree that still contains uncommitted, unpushed, or unmerged changes the user may want.
+**Ejecutá la limpieza una vez que el trabajo esté completo.** "Completo" significa: la rama fue mergeada, el PR está cerrado, el experimento fue descartado, o el usuario confirmó explícitamente que ya no necesita el workspace aislado. Nunca elimines un worktree que aún contenga cambios sin commitear, sin pushear o sin mergear que el usuario pueda necesitar.
 
-### 5.0 Detect Cleanup Mode
+### 5.0 Detectar el modo de limpieza
 
 ```bash
 GIT_DIR=$(cd "$(git rev-parse --git-dir)" 2>/dev/null && pwd -P)
 GIT_COMMON=$(cd "$(git rev-parse --git-common-dir)" 2>/dev/null && pwd -P)
 ```
 
-- **If `GIT_DIR == GIT_COMMON`:** You were never in a linked worktree (Step 0 sent you straight to Step 3). There is nothing to clean up — skip Step 5 entirely.
-- **If `GIT_DIR != GIT_COMMON`:** You are inside a linked worktree. Continue with cleanup.
+- **Si `GIT_DIR == GIT_COMMON`:** Nunca estuviste en un worktree vinculado (el Paso 0 te llevó directo al Paso 3). No hay nada que limpiar — omití el Paso 5 por completo.
+- **Si `GIT_DIR != GIT_COMMON`:** Estás dentro de un worktree vinculado. Continuá con la limpieza.
 
-### 5.1 Verify Work Is Saved
+### 5.1 Verificar que el trabajo esté guardado
 
-Before removing anything, confirm there is no work to lose:
+Antes de eliminar nada, confirmá que no haya trabajo que perder:
 
 ```bash
 git status --porcelain                 # Must be empty (no uncommitted changes)
 git log @{u}.. 2>/dev/null             # Must be empty (no unpushed commits)
 ```
 
-**If either command returns output:** Stop. Report the unsaved work to the user and ask how to proceed (commit/push, stash, or force discard). Never delete a worktree with unsaved work without explicit user confirmation.
+**Si alguno de los comandos devuelve resultado:** Deteneté. Reportá el trabajo sin guardar al usuario y preguntá cómo proceder (commit/push, stash, o descarte forzado). Nunca elimines un worktree con trabajo sin guardar sin confirmación explícita del usuario.
 
-Capture the worktree path and branch name before leaving the directory:
+Capturá la ruta del worktree y el nombre de la rama antes de salir del directorio:
 
 ```bash
 WORKTREE_PATH=$(git rev-parse --show-toplevel)
 BRANCH_NAME=$(git branch --show-current)
 ```
 
-### 5.2 Native Worktree Tools (preferred)
+### 5.2 Herramientas nativas de worktree (preferido)
 
-If you used a native worktree tool in Step 1a (`EnterWorktree`, `WorktreeCreate`, `/worktree`, etc.), use the matching native command to remove the worktree (e.g. `LeaveWorktree`, `WorktreeRemove`, `/worktree remove`). Native tools clean up directories, branches, and harness state consistently.
+Si usaste una herramienta nativa de worktree en el Paso 1a (`EnterWorktree`, `WorktreeCreate`, `/worktree`, etc.), usá el comando nativo correspondiente para eliminar el worktree (por ejemplo, `LeaveWorktree`, `WorktreeRemove`, `/worktree remove`). Las herramientas nativas limpian directorios, ramas y el estado del harness de forma consistente.
 
-Only proceed to 5.3 if no native cleanup tool is available.
+Solo avanzá al 5.3 si no hay ninguna herramienta nativa de limpieza disponible.
 
-### 5.3 Git Worktree Fallback Cleanup
+### 5.3 Alternativa: limpieza con Git Worktree
 
-**Only use this if Step 5.2 does not apply** — you created the worktree manually in Step 1b.
+**Usá esto solo si el Paso 5.2 no aplica** — creaste el worktree manualmente en el Paso 1b.
 
 ```bash
 # 1. Move out of the worktree before deleting it
@@ -244,16 +244,16 @@ git branch -D "$BRANCH_NAME"            # force delete (only with user confirmat
 git worktree prune
 ```
 
-**Sandbox fallback:** If removal fails due to permissions, report the failure and the path that needs manual cleanup. Do not retry destructively.
+**Alternativa por sandbox:** Si la eliminación falla por permisos, reportá la falla y la ruta que necesita limpieza manual. No reintentes de forma destructiva.
 
-### 5.4 Verify Cleanup
+### 5.4 Verificar la limpieza
 
 ```bash
 git worktree list                      # WORKTREE_PATH must no longer appear
 ls -d "$WORKTREE_PATH" 2>/dev/null     # Must return nothing
 ```
 
-### Report
+### Reporte
 
 ```
 Worktree removed: <full-path>
@@ -261,96 +261,96 @@ Branch <name> deleted (or kept, if still needed)
 Main checkout left untouched
 ```
 
-## Quick Reference
+## Referencia rápida
 
-| Situation | Action |
+| Situación | Acción |
 |-----------|--------|
-| Already in linked worktree | Skip creation (Step 0) |
-| In a submodule | Treat as normal repo (Step 0 guard) |
-| Native worktree tool available | Use it (Step 1a) |
-| No native tool | Git worktree fallback (Step 1b) |
-| Need a worktree location | Use `<repo>/.worktrees/<branch>` |
-| Directory not ignored | Add to .gitignore + commit |
-| Permission error on create | Sandbox fallback, work in place |
-| Tests fail during baseline | Report failures + ask |
-| No package.json/Cargo.toml | Skip dependency install |
-| Work complete, in linked worktree | Run Step 5 cleanup |
-| Never created a worktree | Skip Step 5 |
-| Uncommitted/unpushed changes at cleanup | Stop and ask user |
-| Native cleanup tool available | Use it (Step 5.2) |
-| No native cleanup tool | `git worktree remove` (Step 5.3) |
-| Worktree directory deleted manually | `git worktree prune` |
-| Git fallback: clone Claude behavior into worktree | Copy `.claude/settings*.json` from `SOURCE_ROOT` (Step 1b) |
-| Repo uses `.claude` symlinks | Copy JSON only is not enough—recreate symlinks or paths |
+| Ya está en un worktree vinculado | Omitir creación (Paso 0) |
+| Está en un submódulo | Tratar como repo normal (resguardo del Paso 0) |
+| Herramienta nativa de worktree disponible | Usarla (Paso 1a) |
+| Sin herramienta nativa | Alternativa git worktree (Paso 1b) |
+| Se necesita una ubicación de worktree | Usar `<repo>/.worktrees/<branch>` |
+| Directorio no ignorado | Agregar a .gitignore + commit |
+| Error de permisos al crear | Alternativa por sandbox, trabajar en el lugar |
+| Los tests fallan durante la línea base | Reportar fallas + preguntar |
+| Sin package.json/Cargo.toml | Omitir instalación de dependencias |
+| Trabajo completo, en worktree vinculado | Ejecutar limpieza del Paso 5 |
+| Nunca se creó un worktree | Omitir Paso 5 |
+| Cambios sin commitear/pushear al limpiar | Detenerse y preguntar al usuario |
+| Herramienta nativa de limpieza disponible | Usarla (Paso 5.2) |
+| Sin herramienta nativa de limpieza | `git worktree remove` (Paso 5.3) |
+| Directorio de worktree eliminado manualmente | `git worktree prune` |
+| Alternativa git: replicar comportamiento de Claude en el worktree | Copiar `.claude/settings*.json` desde `SOURCE_ROOT` (Paso 1b) |
+| El repo usa symlinks `.claude` | Copiar solo el JSON no alcanza — recrear symlinks o rutas |
 
-## Common Mistakes
+## Errores comunes
 
-### Fighting the harness
+### Ir en contra del harness
 
-- **Problem:** Using `git worktree add` when the platform already provides isolation
-- **Fix:** Step 0 detects existing isolation. Step 1a defers to native tools.
+- **Problema:** Usar `git worktree add` cuando la plataforma ya provee aislamiento
+- **Solución:** El Paso 0 detecta el aislamiento existente. El Paso 1a prioriza las herramientas nativas.
 
-### Skipping detection
+### Omitir la detección
 
-- **Problem:** Creating a nested worktree inside an existing one
-- **Fix:** Always run Step 0 before creating anything
+- **Problema:** Crear un worktree anidado dentro de uno existente
+- **Solución:** Ejecutar siempre el Paso 0 antes de crear nada
 
-### Skipping ignore verification
+### Omitir la verificación de ignorado
 
-- **Problem:** Worktree contents get tracked, pollute git status
-- **Fix:** Always use `git check-ignore` before creating project-local worktree
+- **Problema:** El contenido del worktree queda versionado, contamina el git status
+- **Solución:** Usar siempre `git check-ignore` antes de crear un worktree local al proyecto
 
-### Assuming directory location
+### Asumir la ubicación del directorio
 
-- **Problem:** Creates inconsistency, violates project conventions
-- **Fix:** Always use `<repo>/.worktrees/<branch>` unless user explicitly overrides for one task
+- **Problema:** Genera inconsistencia, viola las convenciones del proyecto
+- **Solución:** Usar siempre `<repo>/.worktrees/<branch>` a menos que el usuario lo anule explícitamente para una tarea puntual
 
-### Proceeding with failing tests
+### Continuar con tests fallando
 
-- **Problem:** Can't distinguish new bugs from pre-existing issues
-- **Fix:** Report failures, get explicit permission to proceed
+- **Problema:** No se puede distinguir entre bugs nuevos y problemas preexistentes
+- **Solución:** Reportar las fallas, obtener permiso explícito para continuar
 
-### Removing a worktree with unsaved work
+### Eliminar un worktree con trabajo sin guardar
 
-- **Problem:** `git worktree remove --force` discards uncommitted/unpushed changes silently
-- **Fix:** Always run `git status --porcelain` and `git log @{u}..` before removal; stop and ask if either is non-empty
+- **Problema:** `git worktree remove --force` descarta silenciosamente los cambios sin commitear/pushear
+- **Solución:** Ejecutar siempre `git status --porcelain` y `git log @{u}..` antes de eliminar; detenerse y preguntar si alguno no está vacío
 
-### Deleting the branch before it is merged
+### Eliminar la rama antes de que esté mergeada
 
-- **Problem:** `git branch -D` destroys commits that were never merged or pushed
-- **Fix:** Prefer `git branch -d` (safe delete); only force-delete after explicit user confirmation
+- **Problema:** `git branch -D` destruye commits que nunca fueron mergeados ni pusheados
+- **Solución:** Preferir `git branch -d` (eliminación segura); solo forzar la eliminación tras confirmación explícita del usuario
 
-### Mixing native and manual cleanup
+### Mezclar limpieza nativa y manual
 
-- **Problem:** Running `git worktree remove` on a worktree created by a native tool leaves phantom harness state
-- **Fix:** Whatever created the worktree must remove it (native tool ↔ native tool, git ↔ git)
+- **Problema:** Ejecutar `git worktree remove` en un worktree creado por una herramienta nativa deja estado fantasma en el harness
+- **Solución:** Lo que creó el worktree debe eliminarlo (herramienta nativa ↔ herramienta nativa, git ↔ git)
 
-### Copying Claude settings from the wrong directory
+### Copiar la configuración de Claude desde el directorio equivocado
 
-- **Problem:** Using `git rev-parse --show-toplevel` after `cd` into the new worktree resolves to the worktree path, so copies find no settings or copy from the wrong place
-- **Fix:** Set `SOURCE_ROOT=$(git rev-parse --show-toplevel)` in the main checkout **before** `git worktree add`, then use `$SOURCE_ROOT` in the copy loop
+- **Problema:** Usar `git rev-parse --show-toplevel` después de hacer `cd` al nuevo worktree resuelve a la ruta del worktree, por lo que las copias no encuentran configuración o copian desde el lugar equivocado
+- **Solución:** Definir `SOURCE_ROOT=$(git rev-parse --show-toplevel)` en el checkout principal **antes** de `git worktree add`, y luego usar `$SOURCE_ROOT` en el bucle de copia
 
-## Red Flags
+## Señales de alerta
 
-**Never:**
-- Create a worktree when Step 0 detects existing isolation
-- Use `git worktree add` when you have a native worktree tool (e.g., `EnterWorktree`). This is the #1 mistake — if you have it, use it.
-- Skip Step 1a by jumping straight to Step 1b's git commands
-- Create worktree without verifying it's ignored (project-local)
-- Skip baseline test verification
-- Proceed with failing tests without asking
-- Remove a worktree that still has uncommitted, unpushed, or unmerged work without explicit user confirmation
-- Force-delete a branch (`git branch -D`) without confirming it is merged or no longer needed
-- Run `git worktree remove` on a worktree created by a native tool
+**Nunca:**
+- Crear un worktree cuando el Paso 0 detecta aislamiento existente
+- Usar `git worktree add` cuando tenés una herramienta nativa de worktree (ej: `EnterWorktree`). Este es el error #1 — si la tenés, usala.
+- Saltearse el Paso 1a yendo directo a los comandos git del Paso 1b
+- Crear un worktree sin verificar que esté ignorado (local al proyecto)
+- Omitir la verificación de la línea base de tests
+- Continuar con tests fallando sin preguntar
+- Eliminar un worktree que aún tenga trabajo sin commitear, sin pushear o sin mergear sin confirmación explícita del usuario
+- Forzar la eliminación de una rama (`git branch -D`) sin confirmar que esté mergeada o que ya no se necesite
+- Ejecutar `git worktree remove` en un worktree creado por una herramienta nativa
 
-**Always:**
-- Run Step 0 detection first
-- Prefer native tools over git fallback
-- Use `<repo>/.worktrees/<branch>` as the standard location
-- Verify directory is ignored for project-local
-- Auto-detect and run project setup
-- Verify clean test baseline
-- Run Step 5 cleanup once the work is done, using the same mechanism that created the worktree
-- Verify there is nothing to lose before removing a worktree (`git status --porcelain`, `git log @{u}..`)
-- Confirm with `git worktree list` and a directory check that cleanup actually completed
-- After Step 1b (git fallback), copy `.claude/settings.json` and `.claude/settings.local.json` from `SOURCE_ROOT` captured before `git worktree add`
+**Siempre:**
+- Ejecutar primero la detección del Paso 0
+- Preferir herramientas nativas sobre la alternativa git
+- Usar `<repo>/.worktrees/<branch>` como ubicación estándar
+- Verificar que el directorio esté ignorado para lo local al proyecto
+- Detectar automáticamente y ejecutar la configuración del proyecto
+- Verificar una línea base de tests limpia
+- Ejecutar la limpieza del Paso 5 una vez completado el trabajo, usando el mismo mecanismo que creó el worktree
+- Verificar que no haya nada que perder antes de eliminar un worktree (`git status --porcelain`, `git log @{u}..`)
+- Confirmar con `git worktree list` y una verificación de directorio que la limpieza realmente se completó
+- Después del Paso 1b (alternativa git), copiar `.claude/settings.json` y `.claude/settings.local.json` desde `SOURCE_ROOT` capturado antes de `git worktree add`

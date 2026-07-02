@@ -1,41 +1,64 @@
 ---
 name: enrich-us
-description: Analyze and enhance user stories with complete, implementation-ready technical detail from direct ticket input or Jira.
+description: Analizar y enriquecer historias de usuario con detalle técnico completo y listo para implementación, a partir de input directo del ticket o ClickUp.
 author: LIDR.co
 version: 1.0.0
 ---
-# enrich-us Skill
+# Skill enrich-us
 
-Use it when this workflow is required in the project.
+Usalo cuando este flujo de trabajo sea requerido en el proyecto.
 
-## Instructions
+## Instrucciones
 
-Please analyze and enrich the ticket: $ARGUMENTS.
+Por favor analizá y enriquecé el ticket: $ARGUMENTS.
 
-Follow these steps:
+Seguí estos pasos:
 
-1. Determine the ticket input source:
-   - **Direct input mode (default when ticket text is provided):** Use the ticket content shared by the user in the prompt/chat.
-   - **Jira mode (optional):** If the user provides a Jira id/key, or asks to use Jira (including references like "the one in progress"), use Jira MCP to fetch the ticket details.
-2. Act as a product expert with technical knowledge.
-3. Understand the problem described in the ticket.
-4. Decide whether or not the User Story is completely detailed according to product best practices. Validate that it includes:
-   - Full functionality description
-   - Comprehensive list of fields to update
-   - Required endpoints structure and URLs
-   - Files/modules to modify according to architecture and best practices
-   - Definition of done (implementation and delivery steps)
-   - Documentation and unit test updates
-   - Non-functional requirements (security, performance, observability, etc.)
-5. If the story lacks enough technical detail for autonomous implementation, provide an improved version that is clearer, more specific, and concise, aligned with step 4. Use project technical context from `@documentation`. Return the result in markdown.
-6. Output format must always include:
+1. Determiná la fuente de entrada del ticket:
+   - **Modo de input directo (por defecto cuando se proporciona el texto del ticket):** Usá el contenido del ticket compartido por el usuario en el prompt/chat.
+   - **Modo ClickUp (opcional):** Si el usuario proporciona un ID/key de ClickUp, o pide usar ClickUp (incluyendo referencias como "el que está en progreso"), usá el MCP de ClickUp para obtener los detalles del ticket.
+2. Si vas a entrar en modo ClickUp, resolvé primero el Workspace a usar siguiendo [Selección de Workspace de ClickUp](#selección-de-workspace-de-clickup) antes de hacer cualquier lectura/escritura.
+3. Actuá como un experto de producto con conocimiento técnico.
+4. Comprendé el problema descrito en el ticket.
+5. Decidí si la User Story está completamente detallada según las mejores prácticas de producto. Validá que incluya:
+   - Descripción completa de la funcionalidad
+   - Lista exhaustiva de campos a actualizar
+   - Estructura y URLs de los endpoints requeridos
+   - Archivos/módulos a modificar según la arquitectura y las buenas prácticas
+   - Definición de hecho (pasos de implementación y entrega)
+   - Actualizaciones de documentación y de tests unitarios
+   - Requisitos no funcionales (seguridad, rendimiento, observabilidad, etc.)
+6. Si la historia carece de suficiente detalle técnico para una implementación autónoma, proporcioná una versión mejorada que sea más clara, específica y concisa, alineada con el paso 5. Usá el contexto técnico del proyecto desde `@documentation`. Devolvé el resultado en markdown.
+7. El formato de salida siempre debe incluir:
    - `## Original`
    - `## Enhanced`
-7. Jira write-back is optional and only applies in Jira mode:
-   - Update the Jira ticket by appending the enhanced content after the original content, with clear `h2` sections `[original]` and `[enhanced]` and readable formatting (lists/code snippets when useful).
-   - If ticket status is `To refine`, move it to `Pending refinement validation`.
+8. La escritura en ClickUp es opcional y solo aplica en modo ClickUp:
+   - Actualizá el ticket de ClickUp agregando el contenido enriquecido después del contenido original, con secciones `h2` claras `[original]` y `[enhanced]` y formato legible (listas/fragmentos de código cuando sea útil).
+   - Si el estado del ticket es `To refine`, movelo a `Pending refinement validation`.
 
-## Notes
+## Selección de Workspace de ClickUp
 
-- Do not require Jira when the user already provided full ticket content directly.
-- If input is ambiguous (for example, user gives a short reference without content), ask whether to resolve via Jira or request the full ticket text.
+Este mecanismo aplica a **cualquier skill que use el MCP de ClickUp** (empezando por `enrich-us`). Debe ejecutarse una única vez antes de la primera lectura o escritura en ClickUp dentro de un proyecto:
+
+1. Verificá si existe el archivo `.claude/clickup-workspace.local.md` en la raíz del proyecto.
+2. **Si el archivo existe:** leé el Workspace (nombre e ID) configurado ahí y usalo directamente en todas las acciones de ClickUp de esta sesión, sin volver a preguntar.
+3. **Si el archivo NO existe:**
+   1. Listá los Workspaces disponibles usando el MCP de ClickUp, mostrando nombre e ID de cada uno.
+   2. Preguntale explícitamente al usuario cuál Workspace corresponde a este proyecto.
+   3. Guardá la respuesta (nombre e ID del Workspace elegido) en `.claude/clickup-workspace.local.md`, creando la carpeta `.claude/` si no existe, con este formato:
+
+      ```markdown
+      # ClickUp Workspace
+
+      - name: <nombre del workspace>
+      - id: <id del workspace>
+      ```
+   4. Usá ese Workspace para la acción actual y para todas las acciones futuras de ClickUp en este proyecto.
+4. `.claude/clickup-workspace.local.md` es una preferencia local del proyecto: no se versiona (está en `.gitignore`) y no se comparte entre proyectos ni repos.
+
+## Notas
+
+- No requieras ClickUp cuando el usuario ya proporcionó el contenido completo del ticket directamente.
+- Si el input es ambiguo (por ejemplo, el usuario da una referencia corta sin contenido), preguntá si resolver vía ClickUp o si pedir el texto completo del ticket.
+- Nota: el modo ClickUp requiere tener el MCP de ClickUp configurado en este proyecto (configuralo con `claude mcp add` cuando esté disponible). Hasta entonces, usá el modo de input directo.
+- Antes de usar el MCP de ClickUp, resolvé siempre el Workspace según [Selección de Workspace de ClickUp](#selección-de-workspace-de-clickup).

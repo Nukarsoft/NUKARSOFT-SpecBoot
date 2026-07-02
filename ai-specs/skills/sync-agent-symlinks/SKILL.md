@@ -1,107 +1,107 @@
 ---
 name: sync-agent-symlinks
-description: Analyze and synchronize agent skill exposure after ai-specs skill changes (additions, removals, renames). Use when skills are added/removed in ai-specs and .claude/skills and .cursor/skills must stay aligned through symlinks.
+description: Analiza y sincroniza la exposición de skills de agentes después de cambios en los skills de ai-specs (adiciones, eliminaciones, renombres). Usar cuando se agregan/eliminan skills en ai-specs y .claude/skills y .cursor/skills deben mantenerse alineados mediante symlinks.
 author: LIDR.co
 version: 1.0.0
 ---
 
-# sync-agent-symlinks Skill
+# Skill sync-agent-symlinks
 
-Keep agent-facing skill structures synchronized with `ai-specs/skills` as the canonical source.
+Mantiene las estructuras de skills expuestas a los agentes sincronizadas con `ai-specs/skills` como fuente canónica.
 
-Use this skill after any change in `ai-specs/skills` (new skill, removed skill, renamed skill, moved skill), especially when you need to avoid stale or broken symlinks.
+Usá este skill después de cualquier cambio en `ai-specs/skills` (skill nuevo, skill eliminado, skill renombrado, skill movido), especialmente cuando necesitás evitar symlinks obsoletos o rotos.
 
-## Scope and Safety Rules
+## Alcance y reglas de seguridad
 
-- Canonical source is `ai-specs/skills`.
-- Mirror targets are:
+- La fuente canónica es `ai-specs/skills`.
+- Los destinos espejo (mirror) son:
   - `.claude/skills`
   - `.cursor/skills`
-- Manage only entries that are symlinks to `../../ai-specs/skills/<skill-name>`.
-- Do not delete non-symlink directories in mirror targets unless the user explicitly asks.
-- Never overwrite a real directory automatically; report it as a conflict.
+- Gestioná únicamente las entradas que sean symlinks hacia `../../ai-specs/skills/<skill-name>`.
+- No elimines directorios que no sean symlinks en los destinos espejo a menos que el usuario lo pida explícitamente.
+- Nunca sobrescribas automáticamente un directorio real; reportalo como un conflicto.
 
-## Workflow
+## Flujo de trabajo
 
-### Step 1 - Build inventories
+### Paso 1 - Construir inventarios
 
-Collect three inventories:
+Reuní tres inventarios:
 
-1. Canonical skills from `ai-specs/skills/*/SKILL.md`
-2. Mirror entries in `.claude/skills`
-3. Mirror entries in `.cursor/skills`
+1. Skills canónicos desde `ai-specs/skills/*/SKILL.md`
+2. Entradas espejo en `.claude/skills`
+3. Entradas espejo en `.cursor/skills`
 
-From mirror entries, classify:
-- `linked`: valid symlink pointing to existing canonical skill
-- `broken`: symlink target missing
-- `orphan`: symlink points to canonical namespace but skill no longer exists
-- `conflict`: non-symlink entry with same name as canonical skill
-- `external`: entry not managed by canonical symlink policy (leave unchanged)
+A partir de las entradas espejo, clasificá:
+- `linked`: symlink válido que apunta a un skill canónico existente
+- `broken`: falta el destino del symlink
+- `orphan`: el symlink apunta al namespace canónico pero el skill ya no existe
+- `conflict`: entrada que no es symlink con el mismo nombre que un skill canónico
+- `external`: entrada no gestionada por la política de symlinks canónica (dejar sin cambios)
 
-### Step 2 - Compute sync plan
+### Paso 2 - Calcular el plan de sincronización
 
-For each mirror target:
+Para cada destino espejo:
 
-- `to_add`: canonical skills missing in mirror target
-- `to_fix`: broken canonical symlinks that should be recreated
-- `to_remove`: orphan canonical symlinks with no canonical source
-- `to_skip`: conflicts and external entries (report only)
+- `to_add`: skills canónicos que faltan en el destino espejo
+- `to_fix`: symlinks canónicos rotos que deben recrearse
+- `to_remove`: symlinks canónicos huérfanos sin fuente canónica
+- `to_skip`: conflictos y entradas externas (solo reportar)
 
-### Step 3 - Apply sync safely
+### Paso 3 - Aplicar la sincronización de forma segura
 
-Apply changes in this order:
+Aplicá los cambios en este orden:
 
-1. Add missing symlinks:
+1. Agregar symlinks faltantes:
    - `<mirror>/<skill-name> -> ../../ai-specs/skills/<skill-name>`
-2. Fix broken canonical symlinks:
-   - Remove broken link and recreate the same canonical link
-3. Remove orphan canonical symlinks:
-   - Remove symlink only if it points to canonical namespace and skill is gone
+2. Corregir symlinks canónicos rotos:
+   - Eliminar el enlace roto y recrear el mismo enlace canónico
+3. Eliminar symlinks canónicos huérfanos:
+   - Eliminar el symlink solo si apunta al namespace canónico y el skill ya no existe
 
-Never remove:
-- non-symlink directories
-- files not under canonical symlink policy
+Nunca elimines:
+- directorios que no sean symlinks
+- archivos que no estén bajo la política de symlinks canónica
 
-### Step 4 - Verify integrity
+### Paso 4 - Verificar integridad
 
-After changes:
+Después de los cambios:
 
-- Confirm every canonical skill exists in both mirrors as a valid symlink, or is explicitly listed as conflict.
-- Confirm no broken canonical symlinks remain.
-- Confirm external entries remain untouched.
+- Confirmá que cada skill canónico exista en ambos destinos espejo como un symlink válido, o esté explícitamente listado como conflicto.
+- Confirmá que no queden symlinks canónicos rotos.
+- Confirmá que las entradas externas permanezcan intactas.
 
-### Step 5 - Report results
+### Paso 5 - Reportar resultados
 
-Return a concise sync report:
+Devolvé un reporte de sincronización conciso:
 
-- Canonical skills count
-- Per mirror target:
-  - added
-  - fixed
-  - removed
-  - conflicts
-  - skipped external entries
-- Remaining blockers (if any)
+- Cantidad de skills canónicos
+- Por destino espejo:
+  - agregados
+  - corregidos
+  - eliminados
+  - conflictos
+  - entradas externas omitidas
+- Bloqueos pendientes (si los hay)
 
-## Add/Remove Scenarios
+## Escenarios de agregado/eliminación
 
-### Scenario A - New skill added in ai-specs
+### Escenario A - Nuevo skill agregado en ai-specs
 
-Expected behavior:
-- Add missing symlink in `.claude/skills`
-- Add missing symlink in `.cursor/skills`
-- Verify both links resolve to canonical folder
+Comportamiento esperado:
+- Agregar el symlink faltante en `.claude/skills`
+- Agregar el symlink faltante en `.cursor/skills`
+- Verificar que ambos enlaces resuelvan a la carpeta canónica
 
-### Scenario B - Skill removed from ai-specs
+### Escenario B - Skill eliminado de ai-specs
 
-Expected behavior:
-- Remove orphan canonical symlink from `.claude/skills`
-- Remove orphan canonical symlink from `.cursor/skills`
-- Keep non-canonical directories untouched and report them
+Comportamiento esperado:
+- Eliminar el symlink canónico huérfano de `.claude/skills`
+- Eliminar el symlink canónico huérfano de `.cursor/skills`
+- Mantener intactos los directorios no canónicos y reportarlos
 
-## Command Patterns (Reference)
+## Patrones de comandos (referencia)
 
-Use equivalent commands for your environment:
+Usá comandos equivalentes para tu entorno:
 
 ```bash
 # list canonical skill directories (names with SKILL.md)
@@ -120,16 +120,16 @@ rm .claude/skills/<skill-name>
 rm .cursor/skills/<skill-name>
 ```
 
-## Red Flags
+## Señales de alerta
 
-Never:
-- treat `ai-specs` as non-canonical
-- auto-delete real directories in mirror targets
-- leave broken canonical symlinks after sync
-- silently skip conflicts without reporting
+Nunca:
+- trates `ai-specs` como no canónico
+- elimines automáticamente directorios reales en los destinos espejo
+- dejes symlinks canónicos rotos después de sincronizar
+- omitas conflictos silenciosamente sin reportarlos
 
-Always:
-- analyze before changing
-- apply minimal safe changes
-- preserve non-canonical entries
-- provide a final sync report with blockers
+Siempre:
+- analizá antes de cambiar
+- aplicá cambios mínimos y seguros
+- preservá las entradas no canónicas
+- proporcioná un reporte final de sincronización con los bloqueos pendientes

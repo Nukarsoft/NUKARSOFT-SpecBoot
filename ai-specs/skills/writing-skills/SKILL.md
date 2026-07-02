@@ -1,75 +1,75 @@
 ---
 name: writing-skills
-description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
+description: Usar al crear skills nuevos, editar skills existentes, o verificar que los skills funcionan antes de desplegarlos
 ---
 
-# Writing Skills
+# Escribiendo Skills
 
-## Overview
+## Descripción general
 
-**Writing skills IS Test-Driven Development applied to process documentation.**
+**Escribir skills ES Test-Driven Development aplicado a documentación de procesos.**
 
-**Personal skills live in agent-specific directories (`~/.claude/skills` for Claude Code, `~/.agents/skills/` for Codex)** 
+**Los skills personales viven en directorios específicos de cada agente (`~/.claude/skills` para Claude Code, `~/.agents/skills/` para Codex)**
 
-You write test cases (pressure scenarios with subagents), watch them fail (baseline behavior), write the skill (documentation), watch tests pass (agents comply), and refactor (close loopholes).
+Escribís casos de prueba (escenarios de presión con subagentes), los ves fallar (comportamiento base), escribís el skill (documentación), ves que las pruebas pasan (los agentes cumplen), y refactorizás (cerrás vacíos legales).
 
-**Core principle:** If you didn't watch an agent fail without the skill, you don't know if the skill teaches the right thing.
+**Principio central:** Si no viste fallar a un agente sin el skill, no sabés si el skill enseña lo correcto.
 
-**REQUIRED BACKGROUND:** You MUST understand superpowers:test-driven-development before using this skill. That skill defines the fundamental RED-GREEN-REFACTOR cycle. This skill adapts TDD to documentation.
+**CONOCIMIENTO PREVIO REQUERIDO:** DEBÉS entender superpowers:test-driven-development antes de usar este skill. Ese skill define el ciclo fundamental RED-GREEN-REFACTOR. Este skill adapta TDD a la documentación.
 
-**Official guidance:** For Anthropic's official skill authoring best practices, see anthropic-best-practices.md. This document provides additional patterns and guidelines that complement the TDD-focused approach in this skill.
+**Guía oficial:** Para las mejores prácticas oficiales de Anthropic sobre la creación de skills, ver anthropic-best-practices.md. Este documento aporta patrones y lineamientos adicionales que complementan el enfoque basado en TDD de este skill.
 
-## What is a Skill?
+## ¿Qué es un Skill?
 
-A **skill** is a reference guide for proven techniques, patterns, or tools. Skills help future Claude instances find and apply effective approaches.
+Un **skill** es una guía de referencia para técnicas, patrones o herramientas probadas. Los skills ayudan a futuras instancias de Claude a encontrar y aplicar enfoques efectivos.
 
-**Skills are:** Reusable techniques, patterns, tools, reference guides
+**Los skills son:** Técnicas reutilizables, patrones, herramientas, guías de referencia
 
-**Skills are NOT:** Narratives about how you solved a problem once
+**Los skills NO son:** Narrativas sobre cómo resolviste un problema una vez
 
-## TDD Mapping for Skills
+## Mapeo de TDD para Skills
 
-| TDD Concept | Skill Creation |
+| Concepto TDD | Creación de Skills |
 |-------------|----------------|
-| **Test case** | Pressure scenario with subagent |
-| **Production code** | Skill document (SKILL.md) |
-| **Test fails (RED)** | Agent violates rule without skill (baseline) |
-| **Test passes (GREEN)** | Agent complies with skill present |
-| **Refactor** | Close loopholes while maintaining compliance |
-| **Write test first** | Run baseline scenario BEFORE writing skill |
-| **Watch it fail** | Document exact rationalizations agent uses |
-| **Minimal code** | Write skill addressing those specific violations |
-| **Watch it pass** | Verify agent now complies |
-| **Refactor cycle** | Find new rationalizations → plug → re-verify |
+| **Caso de prueba** | Escenario de presión con subagente |
+| **Código de producción** | Documento del skill (SKILL.md) |
+| **La prueba falla (RED)** | El agente viola la regla sin el skill (línea base) |
+| **La prueba pasa (GREEN)** | El agente cumple con el skill presente |
+| **Refactor** | Cerrar vacíos legales manteniendo el cumplimiento |
+| **Escribir la prueba primero** | Ejecutar el escenario base ANTES de escribir el skill |
+| **Verla fallar** | Documentar las racionalizaciones exactas que usa el agente |
+| **Código mínimo** | Escribir el skill abordando esas violaciones específicas |
+| **Verla pasar** | Verificar que el agente ahora cumple |
+| **Ciclo de refactor** | Encontrar nuevas racionalizaciones → taparlas → reverificar |
 
-The entire skill creation process follows RED-GREEN-REFACTOR.
+Todo el proceso de creación de skills sigue RED-GREEN-REFACTOR.
 
-## When to Create a Skill
+## Cuándo crear un Skill
 
-**Create when:**
-- Technique wasn't intuitively obvious to you
-- You'd reference this again across projects
-- Pattern applies broadly (not project-specific)
-- Others would benefit
+**Creá uno cuando:**
+- La técnica no te resultó intuitivamente obvia
+- Volverías a consultar esto en distintos proyectos
+- El patrón aplica de forma amplia (no es específico de un proyecto)
+- Otros se beneficiarían
 
-**Don't create for:**
-- One-off solutions
-- Standard practices well-documented elsewhere
-- Project-specific conventions (put in CLAUDE.md)
-- Mechanical constraints (if it's enforceable with regex/validation, automate it—save documentation for judgment calls)
+**No lo crees para:**
+- Soluciones puntuales
+- Prácticas estándar ya bien documentadas en otro lado
+- Convenciones específicas del proyecto (ponelas en CLAUDE.md)
+- Restricciones mecánicas (si se puede aplicar con regex/validación, automatizalo — reservá la documentación para las decisiones que requieren criterio)
 
-## Skill Types
+## Tipos de Skill
 
-### Technique
-Concrete method with steps to follow (condition-based-waiting, root-cause-tracing)
+### Técnica
+Método concreto con pasos a seguir (condition-based-waiting, root-cause-tracing)
 
-### Pattern
-Way of thinking about problems (flatten-with-flags, test-invariants)
+### Patrón
+Forma de pensar sobre problemas (flatten-with-flags, test-invariants)
 
-### Reference
-API docs, syntax guides, tool documentation (office docs)
+### Referencia
+Documentación de API, guías de sintaxis, documentación de herramientas (office docs)
 
-## Directory Structure
+## Estructura de directorios
 
 
 ```
@@ -79,83 +79,83 @@ skills/
     supporting-file.*     # Only if needed
 ```
 
-**Flat namespace** - all skills in one searchable namespace
+**Namespace plano** - todos los skills en un único namespace consultable
 
-**Separate files for:**
-1. **Heavy reference** (100+ lines) - API docs, comprehensive syntax
-2. **Reusable tools** - Scripts, utilities, templates
+**Archivos separados para:**
+1. **Referencia extensa** (100+ líneas) - documentación de API, sintaxis exhaustiva
+2. **Herramientas reutilizables** - Scripts, utilidades, plantillas
 
-**Keep inline:**
-- Principles and concepts
-- Code patterns (< 50 lines)
-- Everything else
+**Mantené inline:**
+- Principios y conceptos
+- Patrones de código (< 50 líneas)
+- Todo lo demás
 
-## SKILL.md Structure
+## Estructura de SKILL.md
 
 **Frontmatter (YAML):**
-- Two required fields: `name` and `description` (see [agentskills.io/specification](https://agentskills.io/specification) for all supported fields)
-- Max 1024 characters total
-- `name`: Use letters, numbers, and hyphens only (no parentheses, special chars)
-- `description`: Third-person, describes ONLY when to use (NOT what it does)
-  - Start with "Use when..." to focus on triggering conditions
-  - Include specific symptoms, situations, and contexts
-  - **NEVER summarize the skill's process or workflow** (see CSO section for why)
-  - Keep under 500 characters if possible
+- Dos campos requeridos: `name` y `description` (ver [agentskills.io/specification](https://agentskills.io/specification) para todos los campos soportados)
+- Máximo 1024 caracteres en total
+- `name`: Usar solo letras, números y guiones (sin paréntesis ni caracteres especiales)
+- `description`: En tercera persona, describe ÚNICAMENTE cuándo usarlo (NO qué hace)
+  - Empezar con "Use when..." para enfocarse en las condiciones que lo disparan
+  - Incluir síntomas, situaciones y contextos específicos
+  - **NUNCA resumir el proceso o flujo de trabajo del skill** (ver la sección CSO para entender por qué)
+  - Mantenerlo bajo 500 caracteres si es posible
 
 ```markdown
 ---
 name: Skill-Name-With-Hyphens
-description: Use when [specific triggering conditions and symptoms]
+description: Use when [condiciones y síntomas específicos que lo disparan]
 ---
 
-# Skill Name
+# Nombre del Skill
 
 ## Overview
-What is this? Core principle in 1-2 sentences.
+¿Qué es esto? Principio central en 1-2 oraciones.
 
 ## When to Use
-[Small inline flowchart IF decision non-obvious]
+[Pequeño flowchart inline SI la decisión no es obvia]
 
-Bullet list with SYMPTOMS and use cases
-When NOT to use
+Lista con SÍNTOMAS y casos de uso
+Cuándo NO usarlo
 
-## Core Pattern (for techniques/patterns)
-Before/after code comparison
+## Core Pattern (para técnicas/patrones)
+Comparación de código antes/después
 
 ## Quick Reference
-Table or bullets for scanning common operations
+Tabla o lista para escanear operaciones comunes
 
 ## Implementation
-Inline code for simple patterns
-Link to file for heavy reference or reusable tools
+Código inline para patrones simples
+Enlace a archivo para referencia extensa o herramientas reutilizables
 
 ## Common Mistakes
-What goes wrong + fixes
+Qué puede salir mal + soluciones
 
-## Real-World Impact (optional)
-Concrete results
+## Real-World Impact (opcional)
+Resultados concretos
 ```
 
 
 ## Claude Search Optimization (CSO)
 
-**Critical for discovery:** Future Claude needs to FIND your skill
+**Crítico para el descubrimiento:** las futuras instancias de Claude necesitan ENCONTRAR tu skill
 
-### 1. Rich Description Field
+### 1. Campo de descripción rico
 
-**Purpose:** Claude reads description to decide which skills to load for a given task. Make it answer: "Should I read this skill right now?"
+**Propósito:** Claude lee la descripción para decidir qué skills cargar para una tarea determinada. Hacé que responda: "¿Debería leer este skill ahora mismo?"
 
-**Format:** Start with "Use when..." to focus on triggering conditions
+**Formato:** Empezar con "Use when..." para enfocarse en las condiciones que lo disparan
 
-**CRITICAL: Description = When to Use, NOT What the Skill Does**
+**CRÍTICO: La descripción = Cuándo usarlo, NO Qué hace el skill**
 
-The description should ONLY describe triggering conditions. Do NOT summarize the skill's process or workflow in the description.
+La descripción debe describir ÚNICAMENTE las condiciones que lo disparan. NO resumas el proceso o flujo de trabajo del skill en la descripción.
 
-**Why this matters:** Testing revealed that when a description summarizes the skill's workflow, Claude may follow the description instead of reading the full skill content. A description saying "code review between tasks" caused Claude to do ONE review, even though the skill's flowchart clearly showed TWO reviews (spec compliance then code quality).
+**Por qué importa esto:** Las pruebas revelaron que cuando una descripción resume el flujo de trabajo del skill, Claude puede seguir la descripción en lugar de leer el contenido completo del skill. Una descripción que decía "code review between tasks" hizo que Claude hiciera UNA sola revisión, aun cuando el flowchart del skill mostraba claramente DOS revisiones (cumplimiento de la spec y luego calidad de código).
 
-When the description was changed to just "Use when executing implementation plans with independent tasks" (no workflow summary), Claude correctly read the flowchart and followed the two-stage review process.
+Cuando la descripción se cambió a simplemente "Use when executing implementation plans with independent tasks" (sin resumen del flujo de trabajo), Claude leyó correctamente el flowchart y siguió el proceso de revisión en dos etapas.
 
-**The trap:** Descriptions that summarize workflow create a shortcut Claude will take. The skill body becomes documentation Claude skips.
+**La trampa:** Las descripciones que resumen el flujo de trabajo crean un atajo que Claude va a tomar. El cuerpo del skill se convierte en documentación que Claude se salta.
 
 ```yaml
 # ❌ BAD: Summarizes workflow - Claude may follow this instead of reading skill
@@ -171,13 +171,13 @@ description: Use when executing implementation plans with independent tasks in t
 description: Use when implementing any feature or bugfix, before writing implementation code
 ```
 
-**Content:**
-- Use concrete triggers, symptoms, and situations that signal this skill applies
-- Describe the *problem* (race conditions, inconsistent behavior) not *language-specific symptoms* (setTimeout, sleep)
-- Keep triggers technology-agnostic unless the skill itself is technology-specific
-- If skill is technology-specific, make that explicit in the trigger
-- Write in third person (injected into system prompt)
-- **NEVER summarize the skill's process or workflow**
+**Contenido:**
+- Usá disparadores, síntomas y situaciones concretas que señalen que este skill aplica
+- Describí el *problema* (race conditions, comportamiento inconsistente) no *síntomas específicos de un lenguaje* (setTimeout, sleep)
+- Mantené los disparadores agnósticos de tecnología a menos que el skill en sí sea específico de una tecnología
+- Si el skill es específico de una tecnología, hacelo explícito en el disparador
+- Escribí en tercera persona (se inyecta en el system prompt)
+- **NUNCA resumas el proceso o flujo de trabajo del skill**
 
 ```yaml
 # ❌ BAD: Too abstract, vague, doesn't include when to use
@@ -196,32 +196,32 @@ description: Use when tests have race conditions, timing dependencies, or pass/f
 description: Use when using React Router and handling authentication redirects
 ```
 
-### 2. Keyword Coverage
+### 2. Cobertura de palabras clave
 
-Use words Claude would search for:
-- Error messages: "Hook timed out", "ENOTEMPTY", "race condition"
-- Symptoms: "flaky", "hanging", "zombie", "pollution"
-- Synonyms: "timeout/hang/freeze", "cleanup/teardown/afterEach"
-- Tools: Actual commands, library names, file types
+Usá palabras que Claude buscaría:
+- Mensajes de error: "Hook timed out", "ENOTEMPTY", "race condition"
+- Síntomas: "flaky", "hanging", "zombie", "pollution"
+- Sinónimos: "timeout/hang/freeze", "cleanup/teardown/afterEach"
+- Herramientas: Comandos reales, nombres de librerías, tipos de archivo
 
-### 3. Descriptive Naming
+### 3. Nomenclatura descriptiva
 
-**Use active voice, verb-first:**
-- ✅ `creating-skills` not `skill-creation`
-- ✅ `condition-based-waiting` not `async-test-helpers`
+**Usá voz activa, verbo primero:**
+- ✅ `creating-skills` no `skill-creation`
+- ✅ `condition-based-waiting` no `async-test-helpers`
 
-### 4. Token Efficiency (Critical)
+### 4. Eficiencia de tokens (Crítico)
 
-**Problem:** getting-started and frequently-referenced skills load into EVERY conversation. Every token counts.
+**Problema:** los skills de getting-started y los consultados con frecuencia se cargan en CADA conversación. Cada token cuenta.
 
-**Target word counts:**
-- getting-started workflows: <150 words each
-- Frequently-loaded skills: <200 words total
-- Other skills: <500 words (still be concise)
+**Cantidad de palabras objetivo:**
+- Flujos de getting-started: <150 palabras cada uno
+- Skills cargados con frecuencia: <200 palabras en total
+- Otros skills: <500 palabras (aun así sé conciso)
 
-**Techniques:**
+**Técnicas:**
 
-**Move details to tool help:**
+**Mové los detalles a la ayuda de la herramienta:**
 ```bash
 # ❌ BAD: Document all flags in SKILL.md
 search-conversations supports --text, --both, --after DATE, --before DATE, --limit N
@@ -230,7 +230,7 @@ search-conversations supports --text, --both, --after DATE, --before DATE, --lim
 search-conversations supports multiple modes and filters. Run --help for details.
 ```
 
-**Use cross-references:**
+**Usá referencias cruzadas:**
 ```markdown
 # ❌ BAD: Repeat workflow details
 When searching, dispatch subagent with template...
@@ -240,7 +240,7 @@ When searching, dispatch subagent with template...
 Always use subagents (50-100x context savings). REQUIRED: Use [other-skill-name] for workflow.
 ```
 
-**Compress examples:**
+**Comprimí los ejemplos:**
 ```markdown
 # ❌ BAD: Verbose example (42 words)
 your human partner: "How did we handle authentication errors in React Router before?"
@@ -253,41 +253,41 @@ You: Searching...
 [Dispatch subagent → synthesis]
 ```
 
-**Eliminate redundancy:**
-- Don't repeat what's in cross-referenced skills
-- Don't explain what's obvious from command
-- Don't include multiple examples of same pattern
+**Eliminá la redundancia:**
+- No repitas lo que ya está en skills referenciados de forma cruzada
+- No expliques lo que es obvio a partir del comando
+- No incluyas múltiples ejemplos del mismo patrón
 
-**Verification:**
+**Verificación:**
 ```bash
 wc -w skills/path/SKILL.md
 # getting-started workflows: aim for <150 each
 # Other frequently-loaded: aim for <200 total
 ```
 
-**Name by what you DO or core insight:**
+**Nombralo según lo que HACÉS o la idea central:**
 - ✅ `condition-based-waiting` > `async-test-helpers`
-- ✅ `using-skills` not `skill-usage`
+- ✅ `using-skills` no `skill-usage`
 - ✅ `flatten-with-flags` > `data-structure-refactoring`
 - ✅ `root-cause-tracing` > `debugging-techniques`
 
-**Gerunds (-ing) work well for processes:**
+**Los gerundios (-ing) funcionan bien para procesos:**
 - `creating-skills`, `testing-skills`, `debugging-with-logs`
-- Active, describes the action you're taking
+- Activo, describe la acción que estás tomando
 
-### 4. Cross-Referencing Other Skills
+### 4. Referenciar otros skills de forma cruzada
 
-**When writing documentation that references other skills:**
+**Al escribir documentación que referencia otros skills:**
 
-Use skill name only, with explicit requirement markers:
-- ✅ Good: `**REQUIRED SUB-SKILL:** Use superpowers:test-driven-development`
-- ✅ Good: `**REQUIRED BACKGROUND:** You MUST understand superpowers:systematic-debugging`
-- ❌ Bad: `See skills/testing/test-driven-development` (unclear if required)
-- ❌ Bad: `@skills/testing/test-driven-development/SKILL.md` (force-loads, burns context)
+Usá solo el nombre del skill, con marcadores explícitos de requisito:
+- ✅ Bien: `**REQUIRED SUB-SKILL:** Use superpowers:test-driven-development`
+- ✅ Bien: `**REQUIRED BACKGROUND:** You MUST understand superpowers:systematic-debugging`
+- ❌ Mal: `See skills/testing/test-driven-development` (no queda claro si es requerido)
+- ❌ Mal: `@skills/testing/test-driven-development/SKILL.md` (fuerza la carga, consume contexto)
 
-**Why no @ links:** `@` syntax force-loads files immediately, consuming 200k+ context before you need them.
+**Por qué no usar enlaces con @:** la sintaxis `@` fuerza la carga inmediata de archivos, consumiendo 200k+ tokens de contexto antes de que los necesites.
 
-## Flowchart Usage
+## Uso de flowcharts
 
 ```dot
 digraph when_flowchart {
@@ -302,66 +302,66 @@ digraph when_flowchart {
 }
 ```
 
-**Use flowcharts ONLY for:**
-- Non-obvious decision points
-- Process loops where you might stop too early
-- "When to use A vs B" decisions
+**Usá flowcharts SOLO para:**
+- Puntos de decisión no obvios
+- Bucles de proceso donde podrías detenerte demasiado pronto
+- Decisiones de "cuándo usar A vs B"
 
-**Never use flowcharts for:**
-- Reference material → Tables, lists
-- Code examples → Markdown blocks
-- Linear instructions → Numbered lists
-- Labels without semantic meaning (step1, helper2)
+**Nunca uses flowcharts para:**
+- Material de referencia → Tablas, listas
+- Ejemplos de código → Bloques markdown
+- Instrucciones lineales → Listas numeradas
+- Etiquetas sin significado semántico (step1, helper2)
 
-See @graphviz-conventions.dot for graphviz style rules.
+Ver @graphviz-conventions.dot para las reglas de estilo de graphviz.
 
-**Visualizing for your human partner:** Use `render-graphs.js` in this directory to render a skill's flowcharts to SVG:
+**Para visualizar junto a tu compañero humano:** Usá `render-graphs.js` en este directorio para renderizar los flowcharts de un skill a SVG:
 ```bash
 ./render-graphs.js ../some-skill           # Each diagram separately
 ./render-graphs.js ../some-skill --combine # All diagrams in one SVG
 ```
 
-## Code Examples
+## Ejemplos de código
 
-**One excellent example beats many mediocre ones**
+**Un ejemplo excelente supera a muchos mediocres**
 
-Choose most relevant language:
-- Testing techniques → TypeScript/JavaScript
-- System debugging → Shell/Python
-- Data processing → Python
+Elegí el lenguaje más relevante:
+- Técnicas de testing → TypeScript/JavaScript
+- Debugging de sistemas → Shell/Python
+- Procesamiento de datos → Python
 
-**Good example:**
-- Complete and runnable
-- Well-commented explaining WHY
-- From real scenario
-- Shows pattern clearly
-- Ready to adapt (not generic template)
+**Un buen ejemplo:**
+- Es completo y ejecutable
+- Está bien comentado explicando el POR QUÉ
+- Proviene de un escenario real
+- Muestra el patrón con claridad
+- Está listo para adaptar (no es una plantilla genérica)
 
-**Don't:**
-- Implement in 5+ languages
-- Create fill-in-the-blank templates
-- Write contrived examples
+**No hagas esto:**
+- Implementar en 5+ lenguajes
+- Crear plantillas para completar espacios en blanco
+- Escribir ejemplos artificiales
 
-You're good at porting - one great example is enough.
+Sos bueno portando código - un gran ejemplo es suficiente.
 
-## File Organization
+## Organización de archivos
 
-### Self-Contained Skill
+### Skill autocontenido
 ```
 defense-in-depth/
   SKILL.md    # Everything inline
 ```
-When: All content fits, no heavy reference needed
+Cuándo: Todo el contenido entra, no se necesita referencia extensa
 
-### Skill with Reusable Tool
+### Skill con herramienta reutilizable
 ```
 condition-based-waiting/
   SKILL.md    # Overview + patterns
   example.ts  # Working helpers to adapt
 ```
-When: Tool is reusable code, not just narrative
+Cuándo: La herramienta es código reutilizable, no solo narrativa
 
-### Skill with Heavy Reference
+### Skill con referencia extensa
 ```
 pptx/
   SKILL.md       # Overview + workflows
@@ -369,102 +369,102 @@ pptx/
   ooxml.md       # 500 lines XML structure
   scripts/       # Executable tools
 ```
-When: Reference material too large for inline
+Cuándo: El material de referencia es demasiado extenso para ir inline
 
-## The Iron Law (Same as TDD)
+## La Ley de Hierro (igual que en TDD)
 
 ```
 NO SKILL WITHOUT A FAILING TEST FIRST
 ```
 
-This applies to NEW skills AND EDITS to existing skills.
+Esto aplica tanto a skills NUEVOS como a EDICIONES de skills existentes.
 
-Write skill before testing? Delete it. Start over.
-Edit skill without testing? Same violation.
+¿Escribiste el skill antes de probarlo? Borralo. Empezá de nuevo.
+¿Editaste el skill sin probarlo? Misma violación.
 
-**No exceptions:**
-- Not for "simple additions"
-- Not for "just adding a section"
-- Not for "documentation updates"
-- Don't keep untested changes as "reference"
-- Don't "adapt" while running tests
-- Delete means delete
+**Sin excepciones:**
+- No para "adiciones simples"
+- No para "solo agregar una sección"
+- No para "actualizaciones de documentación"
+- No guardes cambios sin probar como "referencia"
+- No "adaptes" mientras corrés las pruebas
+- Borrar significa borrar
 
-**REQUIRED BACKGROUND:** The superpowers:test-driven-development skill explains why this matters. Same principles apply to documentation.
+**CONOCIMIENTO PREVIO REQUERIDO:** El skill superpowers:test-driven-development explica por qué esto importa. Los mismos principios aplican a la documentación.
 
-## Testing All Skill Types
+## Probar todos los tipos de Skill
 
-Different skill types need different test approaches:
+Distintos tipos de skill necesitan distintos enfoques de prueba:
 
-### Discipline-Enforcing Skills (rules/requirements)
+### Skills que imponen disciplina (reglas/requisitos)
 
-**Examples:** TDD, verification-before-completion, designing-before-coding
+**Ejemplos:** TDD, verification-before-completion, designing-before-coding
 
-**Test with:**
-- Academic questions: Do they understand the rules?
-- Pressure scenarios: Do they comply under stress?
-- Multiple pressures combined: time + sunk cost + exhaustion
-- Identify rationalizations and add explicit counters
+**Probar con:**
+- Preguntas académicas: ¿Entienden las reglas?
+- Escenarios de presión: ¿Cumplen bajo estrés?
+- Múltiples presiones combinadas: tiempo + costo hundido + agotamiento
+- Identificar racionalizaciones y agregar contramedidas explícitas
 
-**Success criteria:** Agent follows rule under maximum pressure
+**Criterio de éxito:** El agente sigue la regla bajo presión máxima
 
-### Technique Skills (how-to guides)
+### Skills de técnica (guías de cómo hacer algo)
 
-**Examples:** condition-based-waiting, root-cause-tracing, defensive-programming
+**Ejemplos:** condition-based-waiting, root-cause-tracing, defensive-programming
 
-**Test with:**
-- Application scenarios: Can they apply the technique correctly?
-- Variation scenarios: Do they handle edge cases?
-- Missing information tests: Do instructions have gaps?
+**Probar con:**
+- Escenarios de aplicación: ¿Pueden aplicar la técnica correctamente?
+- Escenarios de variación: ¿Manejan los casos límite?
+- Pruebas de información faltante: ¿Las instrucciones tienen vacíos?
 
-**Success criteria:** Agent successfully applies technique to new scenario
+**Criterio de éxito:** El agente aplica exitosamente la técnica a un escenario nuevo
 
-### Pattern Skills (mental models)
+### Skills de patrón (modelos mentales)
 
-**Examples:** reducing-complexity, information-hiding concepts
+**Ejemplos:** reducing-complexity, information-hiding concepts
 
-**Test with:**
-- Recognition scenarios: Do they recognize when pattern applies?
-- Application scenarios: Can they use the mental model?
-- Counter-examples: Do they know when NOT to apply?
+**Probar con:**
+- Escenarios de reconocimiento: ¿Reconocen cuándo aplica el patrón?
+- Escenarios de aplicación: ¿Pueden usar el modelo mental?
+- Contraejemplos: ¿Saben cuándo NO aplicarlo?
 
-**Success criteria:** Agent correctly identifies when/how to apply pattern
+**Criterio de éxito:** El agente identifica correctamente cuándo/cómo aplicar el patrón
 
-### Reference Skills (documentation/APIs)
+### Skills de referencia (documentación/APIs)
 
-**Examples:** API documentation, command references, library guides
+**Ejemplos:** documentación de API, referencias de comandos, guías de librerías
 
-**Test with:**
-- Retrieval scenarios: Can they find the right information?
-- Application scenarios: Can they use what they found correctly?
-- Gap testing: Are common use cases covered?
+**Probar con:**
+- Escenarios de recuperación: ¿Pueden encontrar la información correcta?
+- Escenarios de aplicación: ¿Pueden usar correctamente lo que encontraron?
+- Prueba de vacíos: ¿Están cubiertos los casos de uso comunes?
 
-**Success criteria:** Agent finds and correctly applies reference information
+**Criterio de éxito:** El agente encuentra y aplica correctamente la información de referencia
 
-## Common Rationalizations for Skipping Testing
+## Racionalizaciones comunes para saltearse las pruebas
 
-| Excuse | Reality |
+| Excusa | Realidad |
 |--------|---------|
-| "Skill is obviously clear" | Clear to you ≠ clear to other agents. Test it. |
-| "It's just a reference" | References can have gaps, unclear sections. Test retrieval. |
-| "Testing is overkill" | Untested skills have issues. Always. 15 min testing saves hours. |
-| "I'll test if problems emerge" | Problems = agents can't use skill. Test BEFORE deploying. |
-| "Too tedious to test" | Testing is less tedious than debugging bad skill in production. |
-| "I'm confident it's good" | Overconfidence guarantees issues. Test anyway. |
-| "Academic review is enough" | Reading ≠ using. Test application scenarios. |
-| "No time to test" | Deploying untested skill wastes more time fixing it later. |
+| "El skill es obviamente claro" | Claro para vos ≠ claro para otros agentes. Probalo. |
+| "Es solo una referencia" | Las referencias pueden tener vacíos, secciones poco claras. Probá la recuperación. |
+| "Probar es excesivo" | Los skills no probados tienen problemas. Siempre. 15 min de pruebas ahorran horas. |
+| "Voy a probar si surgen problemas" | Problemas = los agentes no pueden usar el skill. Probá ANTES de desplegar. |
+| "Es muy tedioso probar" | Probar es menos tedioso que depurar un mal skill en producción. |
+| "Confío en que está bien" | El exceso de confianza garantiza problemas. Probá de todos modos. |
+| "Con la revisión académica alcanza" | Leer ≠ usar. Probá escenarios de aplicación. |
+| "No hay tiempo para probar" | Desplegar un skill sin probar desperdicia más tiempo arreglándolo después. |
 
-**All of these mean: Test before deploying. No exceptions.**
+**Todo esto significa: Probá antes de desplegar. Sin excepciones.**
 
-## Bulletproofing Skills Against Rationalization
+## Blindar los Skills contra la racionalización
 
-Skills that enforce discipline (like TDD) need to resist rationalization. Agents are smart and will find loopholes when under pressure.
+Los skills que imponen disciplina (como TDD) necesitan resistir la racionalización. Los agentes son inteligentes y encontrarán vacíos legales bajo presión.
 
-**Psychology note:** Understanding WHY persuasion techniques work helps you apply them systematically. See persuasion-principles.md for research foundation (Cialdini, 2021; Meincke et al., 2025) on authority, commitment, scarcity, social proof, and unity principles.
+**Nota de psicología:** Entender POR QUÉ funcionan las técnicas de persuasión te ayuda a aplicarlas de forma sistemática. Ver persuasion-principles.md para el fundamento de investigación (Cialdini, 2021; Meincke et al., 2025) sobre los principios de autoridad, compromiso, escasez, prueba social y unidad.
 
-### Close Every Loophole Explicitly
+### Cerrá cada vacío legal de forma explícita
 
-Don't just state the rule - forbid specific workarounds:
+No te limites a enunciar la regla - prohibí las alternativas específicas:
 
 <Bad>
 ```markdown
@@ -484,19 +484,19 @@ Write code before test? Delete it. Start over.
 ```
 </Good>
 
-### Address "Spirit vs Letter" Arguments
+### Abordá los argumentos de "espíritu vs. letra"
 
-Add foundational principle early:
+Agregá un principio fundacional temprano:
 
 ```markdown
 **Violating the letter of the rules is violating the spirit of the rules.**
 ```
 
-This cuts off entire class of "I'm following the spirit" rationalizations.
+Esto corta de raíz toda una clase de racionalizaciones del tipo "estoy siguiendo el espíritu".
 
-### Build Rationalization Table
+### Construí una tabla de racionalizaciones
 
-Capture rationalizations from baseline testing (see Testing section below). Every excuse agents make goes in the table:
+Capturá las racionalizaciones de las pruebas base (ver la sección de Testing más abajo). Cada excusa que ponga un agente va en la tabla:
 
 ```markdown
 | Excuse | Reality |
@@ -506,9 +506,9 @@ Capture rationalizations from baseline testing (see Testing section below). Ever
 | "Tests after achieve same goals" | Tests-after = "what does this do?" Tests-first = "what should this do?" |
 ```
 
-### Create Red Flags List
+### Creá una lista de señales de alerta
 
-Make it easy for agents to self-check when rationalizing:
+Hacé que sea fácil para los agentes autoevaluarse cuando están racionalizando:
 
 ```markdown
 ## Red Flags - STOP and Start Over
@@ -522,134 +522,134 @@ Make it easy for agents to self-check when rationalizing:
 **All of these mean: Delete code. Start over with TDD.**
 ```
 
-### Update CSO for Violation Symptoms
+### Actualizá el CSO con síntomas de violación
 
-Add to description: symptoms of when you're ABOUT to violate the rule:
+Agregá a la descripción: síntomas de cuando estás A PUNTO de violar la regla:
 
 ```yaml
 description: use when implementing any feature or bugfix, before writing implementation code
 ```
 
-## RED-GREEN-REFACTOR for Skills
+## RED-GREEN-REFACTOR para Skills
 
-Follow the TDD cycle:
+Seguí el ciclo de TDD:
 
-### RED: Write Failing Test (Baseline)
+### RED: Escribir la prueba que falla (línea base)
 
-Run pressure scenario with subagent WITHOUT the skill. Document exact behavior:
-- What choices did they make?
-- What rationalizations did they use (verbatim)?
-- Which pressures triggered violations?
+Ejecutá el escenario de presión con un subagente SIN el skill. Documentá el comportamiento exacto:
+- ¿Qué decisiones tomó?
+- ¿Qué racionalizaciones usó (textuales)?
+- ¿Qué presiones provocaron las violaciones?
 
-This is "watch the test fail" - you must see what agents naturally do before writing the skill.
+Esto es "ver fallar la prueba" - tenés que ver qué hacen los agentes naturalmente antes de escribir el skill.
 
-### GREEN: Write Minimal Skill
+### GREEN: Escribir el skill mínimo
 
-Write skill that addresses those specific rationalizations. Don't add extra content for hypothetical cases.
+Escribí el skill que aborde esas racionalizaciones específicas. No agregues contenido extra para casos hipotéticos.
 
-Run same scenarios WITH skill. Agent should now comply.
+Ejecutá los mismos escenarios CON el skill. El agente ahora debería cumplir.
 
-### REFACTOR: Close Loopholes
+### REFACTOR: Cerrar vacíos legales
 
-Agent found new rationalization? Add explicit counter. Re-test until bulletproof.
+¿El agente encontró una nueva racionalización? Agregá una contramedida explícita. Volvé a probar hasta que sea infalible.
 
-**Testing methodology:** See @testing-skills-with-subagents.md for the complete testing methodology:
-- How to write pressure scenarios
-- Pressure types (time, sunk cost, authority, exhaustion)
-- Plugging holes systematically
-- Meta-testing techniques
+**Metodología de pruebas:** Ver @testing-skills-with-subagents.md para la metodología de pruebas completa:
+- Cómo escribir escenarios de presión
+- Tipos de presión (tiempo, costo hundido, autoridad, agotamiento)
+- Tapar vacíos de forma sistemática
+- Técnicas de meta-testing
 
-## Anti-Patterns
+## Antipatrones
 
-### ❌ Narrative Example
+### ❌ Ejemplo narrativo
 "In session 2025-10-03, we found empty projectDir caused..."
-**Why bad:** Too specific, not reusable
+**Por qué está mal:** Demasiado específico, no reutilizable
 
-### ❌ Multi-Language Dilution
+### ❌ Dilución multi-lenguaje
 example-js.js, example-py.py, example-go.go
-**Why bad:** Mediocre quality, maintenance burden
+**Por qué está mal:** Calidad mediocre, carga de mantenimiento
 
-### ❌ Code in Flowcharts
+### ❌ Código en flowcharts
 ```dot
 step1 [label="import fs"];
 step2 [label="read file"];
 ```
-**Why bad:** Can't copy-paste, hard to read
+**Por qué está mal:** No se puede copiar y pegar, difícil de leer
 
-### ❌ Generic Labels
+### ❌ Etiquetas genéricas
 helper1, helper2, step3, pattern4
-**Why bad:** Labels should have semantic meaning
+**Por qué está mal:** Las etiquetas deberían tener significado semántico
 
-## STOP: Before Moving to Next Skill
+## DETENÉTE: Antes de pasar al siguiente Skill
 
-**After writing ANY skill, you MUST STOP and complete the deployment process.**
+**Después de escribir CUALQUIER skill, DEBÉS DETENERTE y completar el proceso de despliegue.**
 
-**Do NOT:**
-- Create multiple skills in batch without testing each
-- Move to next skill before current one is verified
-- Skip testing because "batching is more efficient"
+**NO hagas esto:**
+- Crear varios skills en lote sin probar cada uno
+- Pasar al siguiente skill antes de que el actual esté verificado
+- Saltear las pruebas porque "hacerlo en lote es más eficiente"
 
-**The deployment checklist below is MANDATORY for EACH skill.**
+**La checklist de despliegue de abajo es OBLIGATORIA para CADA skill.**
 
-Deploying untested skills = deploying untested code. It's a violation of quality standards.
+Desplegar skills sin probar = desplegar código sin probar. Es una violación de los estándares de calidad.
 
-## Skill Creation Checklist (TDD Adapted)
+## Checklist de creación de Skills (adaptada de TDD)
 
-**IMPORTANT: Use TodoWrite to create todos for EACH checklist item below.**
+**IMPORTANTE: Usá TodoWrite para crear tareas por CADA ítem de la checklist de abajo.**
 
-**RED Phase - Write Failing Test:**
-- [ ] Create pressure scenarios (3+ combined pressures for discipline skills)
-- [ ] Run scenarios WITHOUT skill - document baseline behavior verbatim
-- [ ] Identify patterns in rationalizations/failures
+**Fase RED - Escribir la prueba que falla:**
+- [ ] Crear escenarios de presión (3+ presiones combinadas para skills de disciplina)
+- [ ] Ejecutar escenarios SIN el skill - documentar el comportamiento base de forma textual
+- [ ] Identificar patrones en las racionalizaciones/fallas
 
-**GREEN Phase - Write Minimal Skill:**
-- [ ] Name uses only letters, numbers, hyphens (no parentheses/special chars)
-- [ ] YAML frontmatter with required `name` and `description` fields (max 1024 chars; see [spec](https://agentskills.io/specification))
-- [ ] Description starts with "Use when..." and includes specific triggers/symptoms
-- [ ] Description written in third person
-- [ ] Keywords throughout for search (errors, symptoms, tools)
-- [ ] Clear overview with core principle
-- [ ] Address specific baseline failures identified in RED
-- [ ] Code inline OR link to separate file
-- [ ] One excellent example (not multi-language)
-- [ ] Run scenarios WITH skill - verify agents now comply
+**Fase GREEN - Escribir el skill mínimo:**
+- [ ] El nombre usa solo letras, números y guiones (sin paréntesis/caracteres especiales)
+- [ ] Frontmatter YAML con los campos requeridos `name` y `description` (máx 1024 caracteres; ver [spec](https://agentskills.io/specification))
+- [ ] La descripción empieza con "Use when..." e incluye disparadores/síntomas específicos
+- [ ] La descripción está escrita en tercera persona
+- [ ] Palabras clave a lo largo del texto para la búsqueda (errores, síntomas, herramientas)
+- [ ] Overview claro con el principio central
+- [ ] Aborda las fallas base específicas identificadas en RED
+- [ ] Código inline O enlace a un archivo separado
+- [ ] Un ejemplo excelente (no multi-lenguaje)
+- [ ] Ejecutar escenarios CON el skill - verificar que los agentes ahora cumplan
 
-**REFACTOR Phase - Close Loopholes:**
-- [ ] Identify NEW rationalizations from testing
-- [ ] Add explicit counters (if discipline skill)
-- [ ] Build rationalization table from all test iterations
-- [ ] Create red flags list
-- [ ] Re-test until bulletproof
+**Fase REFACTOR - Cerrar vacíos legales:**
+- [ ] Identificar NUEVAS racionalizaciones de las pruebas
+- [ ] Agregar contramedidas explícitas (si es un skill de disciplina)
+- [ ] Construir la tabla de racionalizaciones a partir de todas las iteraciones de prueba
+- [ ] Crear la lista de señales de alerta
+- [ ] Volver a probar hasta que sea infalible
 
-**Quality Checks:**
-- [ ] Small flowchart only if decision non-obvious
-- [ ] Quick reference table
-- [ ] Common mistakes section
-- [ ] No narrative storytelling
-- [ ] Supporting files only for tools or heavy reference
+**Controles de calidad:**
+- [ ] Flowchart pequeño solo si la decisión no es obvia
+- [ ] Tabla de referencia rápida
+- [ ] Sección de errores comunes
+- [ ] Sin narrativa tipo cuento
+- [ ] Archivos de soporte solo para herramientas o referencia extensa
 
-**Deployment:**
-- [ ] Commit skill to git and push to your fork (if configured)
-- [ ] Consider contributing back via PR (if broadly useful)
+**Despliegue:**
+- [ ] Commitear el skill a git y pushearlo a tu fork (si está configurado)
+- [ ] Considerar contribuirlo de vuelta vía PR (si es de utilidad amplia)
 
-## Discovery Workflow
+## Flujo de descubrimiento
 
-How future Claude finds your skill:
+Cómo una futura instancia de Claude encuentra tu skill:
 
-1. **Encounters problem** ("tests are flaky")
-3. **Finds SKILL** (description matches)
-4. **Scans overview** (is this relevant?)
-5. **Reads patterns** (quick reference table)
-6. **Loads example** (only when implementing)
+1. **Encuentra un problema** ("tests are flaky")
+3. **Encuentra el SKILL** (la descripción coincide)
+4. **Escanea el overview** (¿es esto relevante?)
+5. **Lee los patrones** (tabla de referencia rápida)
+6. **Carga el ejemplo** (solo al implementar)
 
-**Optimize for this flow** - put searchable terms early and often.
+**Optimizá para este flujo** - poné los términos buscables temprano y con frecuencia.
 
-## The Bottom Line
+## En resumen
 
-**Creating skills IS TDD for process documentation.**
+**Crear skills ES TDD para documentación de procesos.**
 
-Same Iron Law: No skill without failing test first.
-Same cycle: RED (baseline) → GREEN (write skill) → REFACTOR (close loopholes).
-Same benefits: Better quality, fewer surprises, bulletproof results.
+Misma Ley de Hierro: ningún skill sin una prueba que falle primero.
+Mismo ciclo: RED (línea base) → GREEN (escribir el skill) → REFACTOR (cerrar vacíos legales).
+Mismos beneficios: Mejor calidad, menos sorpresas, resultados infalibles.
 
-If you follow TDD for code, follow it for skills. It's the same discipline applied to documentation.
+Si seguís TDD para código, seguilo para skills. Es la misma disciplina aplicada a la documentación.

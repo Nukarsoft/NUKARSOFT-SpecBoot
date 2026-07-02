@@ -1,155 +1,155 @@
 ---
 name: code-auditing
-description: Task-focused project skill.
+description: Skill de proyecto orientado a tareas.
 version: 1.0.0
 ---
-# Code Auditing Skill
+# Skill de Auditoría de Código
 
-Comprehensive methodology for systematic code quality audits.
+Metodología integral para auditorías sistemáticas de calidad de código.
 
-## When to Use
+## Cuándo usarlo
 
-- Comprehensive code quality audits
-- Security vulnerability assessments
-- Technical debt identification
-- Pre-release code reviews
-- Best practices verification
-- Library and dependency audits
+- Auditorías integrales de calidad de código
+- Evaluaciones de vulnerabilidades de seguridad
+- Identificación de deuda técnica
+- Revisiones de código previas a un release
+- Verificación de buenas prácticas
+- Auditorías de librerías y dependencias
 
-## Audit Phases
+## Fases de la auditoría
 
-### Phase 0: Pre-Analysis Setup
-1. Check for project configuration files (package.json, tsconfig.json, etc.)
-2. Identify tech stack and main libraries
-3. Check for linting/formatting configs
-4. Run existing linting/testing commands as baseline
-5. Load documentation for identified core libraries
+### Fase 0: Configuración previa al análisis
+1. Revisar los archivos de configuración del proyecto (package.json, tsconfig.json, etc.)
+2. Identificar el stack tecnológico y las principales librerías
+3. Revisar configuraciones de linting/formato
+4. Ejecutar los comandos de linting/testing existentes como línea base
+5. Cargar la documentación de las librerías core identificadas
 
-### Phase 1: Discovery
-1. Find all code files by type
-2. Create tracking list for each file
-3. Group files by module/feature for contextual analysis
+### Fase 1: Descubrimiento
+1. Encontrar todos los archivos de código por tipo
+2. Crear una lista de seguimiento para cada archivo
+3. Agrupar archivos por módulo/funcionalidad para el análisis contextual
 
-### Phase 2: File-by-File Analysis
-For each file, analyze for:
-- Dead code (unused functions, variables, imports)
-- Code smells and anti-patterns
-- Custom implementations that could use established libraries
-- Security vulnerabilities
-- Performance issues
-- Outdated patterns or deprecated APIs
-- Missing error handling
-- Overly complex functions
-- Duplicate code
+### Fase 2: Análisis archivo por archivo
+Para cada archivo, analizar:
+- Código muerto (funciones, variables, imports sin usar)
+- Code smells y anti-patrones
+- Implementaciones personalizadas que podrían usar librerías establecidas
+- Vulnerabilidades de seguridad
+- Problemas de rendimiento
+- Patrones desactualizados o APIs obsoletas
+- Manejo de errores faltante
+- Funciones excesivamente complejas
+- Código duplicado
 
-### Phase 3: Best Practices Verification
-For every library and framework:
-1. Retrieve official documentation
-2. Compare implementation against official patterns
-3. Identify deviations from recommendations
-4. Note outdated usage patterns
-5. Flag discouraged anti-patterns
+### Fase 3: Verificación de buenas prácticas
+Para cada librería y framework:
+1. Obtener la documentación oficial
+2. Comparar la implementación contra los patrones oficiales
+3. Identificar desviaciones respecto de las recomendaciones
+4. Anotar patrones de uso desactualizados
+5. Marcar anti-patrones desaconsejados
 
-### Phase 4: Pattern Detection
-Look for recurring issues:
-- Common anti-patterns across files
-- Duplicated logic that could be abstracted
-- Inconsistent coding styles
-- Missing error handling patterns
+### Fase 4: Detección de patrones
+Buscar problemas recurrentes:
+- Anti-patrones comunes entre archivos
+- Lógica duplicada que podría abstraerse
+- Estilos de código inconsistentes
+- Patrones de manejo de errores faltantes
 
-### Phase 5: Library Recommendations
-For custom implementations:
-1. Check if current libraries provide the functionality
-2. Search for mature ecosystem packages
-3. Verify library health (commits, issues, activity)
-4. Check compatibility with project setup
+### Fase 5: Recomendaciones de librerías
+Para implementaciones personalizadas:
+1. Verificar si las librerías actuales ya ofrecen la funcionalidad
+2. Buscar paquetes maduros del ecosistema
+3. Verificar la salud de la librería (commits, issues, actividad)
+4. Verificar compatibilidad con la configuración del proyecto
 
-### Phase 6: Comprehensive Report
-Generate detailed report with:
-- Executive summary
-- Critical issues requiring immediate attention
-- File-by-file findings
-- Prioritized action plan
-- Effort estimates
-- Library recommendations
+### Fase 6: Reporte integral
+Generar un reporte detallado con:
+- Resumen ejecutivo
+- Problemas críticos que requieren atención inmediata
+- Hallazgos archivo por archivo
+- Plan de acción priorizado
+- Estimaciones de esfuerzo
+- Recomendaciones de librerías
 
-## Issue Priority Levels
+## Niveles de prioridad de los problemas
 
-- **Critical** - Security vulnerabilities, broken functionality
-- **High Priority** - Performance bottlenecks, unmaintainable code
-- **Medium Priority** - Code quality, best practices deviations
-- **Low Priority** - Style, minor improvements
-- **Quick Wins** - Less than 30 minutes to fix
+- **Crítico** - Vulnerabilidades de seguridad, funcionalidad rota
+- **Alta prioridad** - Cuellos de botella de rendimiento, código no mantenible
+- **Prioridad media** - Calidad de código, desviaciones de buenas prácticas
+- **Baja prioridad** - Estilo, mejoras menores
+- **Quick wins** - Menos de 30 minutos para corregir
 
-## Analysis Categories
+## Categorías de análisis
 
-### Security
-- Hardcoded secrets
-- SQL injection risks
-- XSS vulnerabilities
-- Missing input validation
-- Exposed sensitive data
+### Seguridad
+- Secretos hardcodeados
+- Riesgos de inyección SQL
+- Vulnerabilidades XSS
+- Validación de entradas faltante
+- Datos sensibles expuestos
 
-### Performance
-- Inefficient algorithms
-- Blocking operations
+### Rendimiento
+- Algoritmos ineficientes
+- Operaciones bloqueantes
 - Memory leaks
-- Missing caching opportunities
-- N+1 query patterns
+- Oportunidades de caching faltantes
+- Patrones de consultas N+1
 
-### TypeScript/Type Safety
-- Missing type annotations
-- Use of `any` type
-- Custom types duplicating official types
-- Missing @types packages
+### TypeScript/Seguridad de tipos
+- Anotaciones de tipo faltantes
+- Uso del tipo `any`
+- Tipos personalizados que duplican tipos oficiales
+- Paquetes @types faltantes
 
-### Async/Promise Issues
-- Missing await keywords
-- Unhandled promise rejections
+### Problemas de Async/Promise
+- Palabras clave await faltantes
+- Rechazos de promesas sin manejar
 - Callback hell
 
-### Dead Code
-- Unused imports and exports
-- Unused functions, classes, and methods
-- Unused variables and types
-- Unreachable code blocks
-- Unused files (not imported anywhere)
-- Unused dependencies
+### Código muerto
+- Imports y exports sin usar
+- Funciones, clases y métodos sin usar
+- Variables y tipos sin usar
+- Bloques de código inalcanzables
+- Archivos sin usar (no importados desde ningún lado)
+- Dependencias sin usar
 
-**Tools:**
+**Herramientas:**
 - JavaScript/TypeScript: `npx knip --reporter json`
 - Python: `deadcode . --dry`
 
-**Important:** Always verify tool findings before reporting. Check for:
-- Dynamic imports (`import(variable)`)
-- Framework patterns (React components, decorators)
-- Re-exports for public API
-- Entry points (CLI scripts, serverless handlers)
+**Importante:** Siempre verificá los hallazgos de las herramientas antes de reportarlos. Revisá:
+- Imports dinámicos (`import(variable)`)
+- Patrones de framework (componentes React, decoradores)
+- Re-exports para la API pública
+- Puntos de entrada (scripts CLI, handlers serverless)
 
-## Resources
+## Recursos
 
-See the reference documents for complete methodologies:
+Consultá los documentos de referencia para las metodologías completas:
 
-- `references/audit-methodology.md` - Full 6-phase audit process with detailed checklists
-- `references/dead-code-methodology.md` - Dead code detection tools, verification, and cleanup workflows
+- `references/audit-methodology.md` - Proceso completo de auditoría de 6 fases con checklists detallados
+- `references/dead-code-methodology.md` - Herramientas de detección de código muerto, verificación y flujos de limpieza
 
-## Quick Reference
+## Referencia rápida
 
-### Before Starting
-- [ ] Read project configuration files
-- [ ] Identify tech stack and libraries
-- [ ] Run existing linters as baseline
-- [ ] Create file tracking list
+### Antes de empezar
+- [ ] Leer los archivos de configuración del proyecto
+- [ ] Identificar el stack tecnológico y las librerías
+- [ ] Ejecutar los linters existentes como línea base
+- [ ] Crear la lista de seguimiento de archivos
 
-### During Audit
-- [ ] Mark files as in-progress
-- [ ] Analyze each category systematically
-- [ ] Note specific line numbers
-- [ ] Document before/after examples
-- [ ] Mark files as completed
+### Durante la auditoría
+- [ ] Marcar archivos como en progreso
+- [ ] Analizar cada categoría de forma sistemática
+- [ ] Anotar números de línea específicos
+- [ ] Documentar ejemplos de antes/después
+- [ ] Marcar archivos como completados
 
-### After Audit
-- [ ] Categorize all findings by priority
-- [ ] Generate comprehensive report
-- [ ] Save report to project root
-- [ ] Provide brief console summary
+### Después de la auditoría
+- [ ] Categorizar todos los hallazgos por prioridad
+- [ ] Generar el reporte integral
+- [ ] Guardar el reporte en la raíz del proyecto
+- [ ] Proveer un resumen breve por consola

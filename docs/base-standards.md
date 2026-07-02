@@ -1,72 +1,71 @@
 ---
-description: This document contains all development rules and guidelines for this project, applicable to all AI agents (Claude, Cursor, Codex, Gemini, etc.).
+description: Este documento contiene todas las reglas y lineamientos de desarrollo para este proyecto, aplicables a todos los agentes de IA (Claude, Cursor, Codex, Gemini, etc.).
 alwaysApply: true
 ---
 
-## 1. Core Principles
+## 1. Principios fundamentales
 
-- **Small tasks, one at a time**: Always work in baby steps, one at a time. Never go forward more than one step.
-- **Test-Driven Development**: Start with failing tests for any new functionality (TDD), according to the task details.
-- **Type Safety**: All code must be fully typed.
-- **Clear Naming**: Use clear, descriptive names for all variables and functions.
-- **Incremental Changes**: Prefer incremental, focused changes over large, complex modifications.
-- **Question Assumptions**: Always question assumptions and inferences.
-- **Pattern Detection**: Detect and highlight repeated code patterns.
+- **Tareas pequeñas, de a una**: Trabajá siempre en pasos pequeños, de a uno. Nunca avances más de un paso a la vez.
+- **Test-Driven Development**: Empezá con tests que fallen para cualquier funcionalidad nueva (TDD), según el detalle de la tarea.
+- **Seguridad de tipos**: Todo el código debe estar completamente tipado.
+- **Nombres claros**: Usá nombres claros y descriptivos para todas las variables y funciones.
+- **Cambios incrementales**: Preferí cambios incrementales y focalizados por sobre modificaciones grandes y complejas.
+- **Cuestionar supuestos**: Cuestioná siempre los supuestos e inferencias.
+- **Detección de patrones**: Detectá y señalá patrones de código repetidos.
 
-## 2. Language Standards
-- **English Only**: All technical artifacts must always use English, including:
-    - Code (variables, functions, classes, comments, error messages, log messages)
-    - Documentation (README, guides, API docs)
-    - Jira tickets (titles, descriptions, comments)
-    - Data schemas and database names
-    - Configuration files and scripts
-    - Git commit messages
-    - Test names and descriptions
+## 2. Estándares de idioma
+- **Solo inglés**: Todos los artefactos técnicos deben usar siempre inglés, incluyendo:
+    - Código (variables, funciones, clases, comentarios, mensajes de error, mensajes de log)
+    - Documentación (README, guías, docs de API)
+    - Tickets de ClickUp (títulos, descripciones, comentarios)
+    - Esquemas de datos y nombres de bases de datos
+    - Archivos de configuración y scripts
+    - Mensajes de commit de Git
+    - Nombres y descripciones de tests
 
-## 3. Specific standards
+## 3. Estándares específicos
 
-For detailed standards and guidelines specific to different areas of the project, refer to:
+Para estándares y lineamientos detallados específicos de las distintas áreas del proyecto, consultá:
 
-- [Backend Standards](./backend-standards.md) - API development, database patterns, testing, security and backend best practices
-- [Frontend Standards](./frontend-standards.md) - React components, UI/UX guidelines, and frontend architecture
-- [Documentation Standards](./documentation-standards.md) - Technical documentation structure, formatting, and maintenance guidelines, including AI standards like this document
-- [OpenSpec Tasks Mandatory Steps](./openspec-tasks-mandatory-steps.md) - Required checklist and execution rules when creating or updating OpenSpec `tasks.md` files
+- [Backend Standards](./backend-standards.md) - Desarrollo de API, patrones de base de datos, testing, seguridad y mejores prácticas de backend
+- [Frontend Standards](./frontend-standards.md) - Componentes React, lineamientos de UI/UX y arquitectura frontend
+- [Documentation Standards](./documentation-standards.md) - Estructura, formato y mantenimiento de la documentación técnica, incluyendo estándares de IA como este documento
+- [OpenSpec Tasks Mandatory Steps](./openspec-tasks-mandatory-steps.md) - Checklist obligatorio y reglas de ejecución al crear o actualizar archivos `tasks.md` de OpenSpec
 
-## 4. Project Skills
+## 4. Skills del proyecto
 
-- Skills live in `ai-specs/skills`.
-- When a request matches a skill, load and follow the corresponding `SKILL.md` automatically before continuing.
-- Also load any referenced files in the skill folder (for example, `references/*.md`) when the skill requires them.
+- Los skills viven en `ai-specs/skills`.
+- Cuando un pedido coincide con un skill, cargá y seguí el `SKILL.md` correspondiente automáticamente antes de continuar.
+- Cargá también cualquier archivo referenciado dentro de la carpeta del skill (por ejemplo, `references/*.md`) cuando el skill lo requiera.
 
-## 5. Planning Model Requirement
+## 5. Requisito de modelo para planificación
 
-Planning workflows must run with Opus high reasoning.
+Los workflows de planificación deben ejecutarse con Opus high reasoning.
 
-This requirement applies to:
+Este requisito aplica a:
 - `enrich-us`
 - `openspec-ff-change`
 - `openspec-continue-change`
 
-Before starting any of these workflows, verify the session is using Opus high reasoning. If it is not, **self-correct** by adding `"model": "claude-opus-4-7"` to `.claude/settings.json` (use the `update-config` skill or edit directly), then continue — do not stop and ask the user. Do the same to come back to sonnet medium for any other step.
+Antes de iniciar cualquiera de estos workflows, verificá que la sesión esté usando Opus high reasoning. Si no lo está, **autocorregite** agregando `"model": "claude-opus-4-7"` a `.claude/settings.json` (usá el skill `update-config` o editalo directamente), y luego continuá — no te detengas a preguntarle al usuario. Hacé lo mismo para volver a sonnet medium en cualquier otro paso.
 
-## 6. Symlink Integrity and Multi-Agent Portability
+## 6. Integridad de symlinks y portabilidad multi-agente
 
-- **Canonical Source**: Keep reusable artifacts in `ai-specs` as the canonical source. Agent-specific paths (such as `.claude` and `.cursor`) should reference them through symlinks when possible.
-- **Update Safety**: Whenever a file is renamed, moved, or its suffix changes, verify and update all symlinks that target it before considering the change complete.
-- **New Artifact Linking**: Whenever creating a new artifact that requires multi-agent exposure (for example new agents or skills in `ai-specs`), create the corresponding symlinks from the expected agent-specific reference paths.
-- **External Customization Review**: Whenever customization is introduced outside `ai-specs`, evaluate whether it should be moved into `ai-specs` and replaced with symlinks from the original locations.
-- **Completion Gate**: A change is incomplete if it leaves broken symlinks, stale targets, or duplicated canonical artifacts across agent-specific folders.
+- **Fuente canónica**: Mantené los artefactos reutilizables en `ai-specs` como fuente canónica. Las rutas específicas de cada agente (como `.claude` y `.cursor`) deben referenciarlos mediante symlinks siempre que sea posible.
+- **Seguridad ante actualizaciones**: Cada vez que se renombre o mueva un archivo, o cambie su sufijo, verificá y actualizá todos los symlinks que apunten a él antes de dar el cambio por completado.
+- **Enlace de nuevos artefactos**: Cada vez que se cree un nuevo artefacto que requiera exposición multi-agente (por ejemplo, nuevos agentes o skills en `ai-specs`), creá los symlinks correspondientes desde las rutas de referencia específicas de cada agente.
+- **Revisión de personalizaciones externas**: Cada vez que se introduzca una personalización fuera de `ai-specs`, evaluá si debería moverse a `ai-specs` y reemplazarse por symlinks desde las ubicaciones originales.
+- **Criterio de finalización**: Un cambio está incompleto si deja symlinks rotos, destinos desactualizados o artefactos canónicos duplicados entre las carpetas específicas de cada agente.
 
-## 7. Mandatory OpenSpec Artifact Updates for Post-Apply Changes
+## 7. Actualizaciones obligatorias de artefactos OpenSpec para cambios posteriores al apply
 
-When a new fix/change request appears after `opsx:apply` (or `/apply`) and before `opsx:archive` (or `/archive`), agents must treat it as a spec update first, not as an informal "fix this quickly". It's the core principle of openspec, documentation is the source of truth.
+Cuando aparece un nuevo pedido de fix/cambio después de `opsx:apply` (o `/apply`) y antes de `opsx:archive` (o `/archive`), los agentes deben tratarlo primero como una actualización de spec, no como un "arreglemos esto rápido" informal. Es el principio central de openspec: la documentación es la fuente de verdad.
 
-Required order:
+Orden obligatorio:
 
-1. Update the current OpenSpec change artifacts that are affected (for example: scenarios, requirements/specs, and `tasks.md`). Don't add tasks as "bugfixes" but as part of the initial design, thus in the proper section
-2. If artifact regeneration is needed, run the corresponding OpenSpec step (`opsx:continue`, `opsx:ff`, or equivalent) before coding.
-3. Implement code only after artifacts reflect the new request.
-4. Re-run verification against the updated artifacts before archiving.
+1. Actualizar los artefactos del cambio OpenSpec actual que se vean afectados (por ejemplo: escenarios, requirements/specs y `tasks.md`). No agregues tareas como "bugfixes" sino como parte del diseño inicial, en la sección correspondiente.
+2. Si se necesita regenerar artefactos, ejecutá el paso de OpenSpec correspondiente (`opsx:continue`, `opsx:ff`, o equivalente) antes de codear.
+3. Implementá código solo después de que los artefactos reflejen el nuevo pedido.
+4. Volvé a ejecutar la verificación contra los artefactos actualizados antes de archivar.
 
-Do not apply direct code-only fixes in this window without updating OpenSpec artifacts.
-
+No apliques fixes directos solo de código en esta ventana sin actualizar los artefactos de OpenSpec.

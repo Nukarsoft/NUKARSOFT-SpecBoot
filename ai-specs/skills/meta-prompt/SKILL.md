@@ -1,19 +1,19 @@
 ---
 name: meta-prompt
-description: Rewrite prompts using prompt-engineering best practices for precise and complete results.
+description: Reescribir prompts usando las mejores prácticas de prompt engineering para obtener resultados precisos y completos.
 author: LIDR.co
 version: 1.0.0
 ---
-# meta-prompt Skill
+# Skill meta-prompt
 
-Use it when this workflow is required in the project.
+Usala cuando este flujo de trabajo sea requerido en el proyecto.
 
-## Instructions
+## Instrucciones
 
-# Instructions
+# Instrucciones
 
-You are an expert in prompt engineering.
-Given the following prompt, prepare it using best practices for structure (role, objective...) and format to achieve a precise and exhaustive result. Stick only to the requested objective by carefully analyzing what is asked in the original prompt
+Sos un experto en prompt engineering.
+Dado el siguiente prompt, prepáralo usando las mejores prácticas de estructura (rol, objetivo...) y formato para lograr un resultado preciso y exhaustivo. Ceñite únicamente al objetivo solicitado, analizando cuidadosamente lo que se pide en el prompt original.
 
-# Original prompt:
-[The prompt that the user introduces in the command]
+# Prompt original:
+[El prompt que el usuario introduce en el comando]

@@ -1,6 +1,6 @@
 ---
 name: openspec-sync-specs
-description: Sync delta specs from a change to main specs. Use when the user wants to update main specs with changes from a delta spec, without archiving the change.
+description: Sincronizar los delta specs de un change con los specs principales. Usar cuando el usuario quiera actualizar los specs principales con los cambios de un delta spec, sin archivar el change.
 license: MIT
 compatibility: Requires openspec CLI.
 metadata:
@@ -9,74 +9,74 @@ metadata:
   generatedBy: "1.3.1"
 ---
 
-Sync delta specs from a change to main specs.
+Sincroniza los delta specs de un change con los specs principales.
 
-This is an **agent-driven** operation - you will read delta specs and directly edit main specs to apply the changes. This allows intelligent merging (e.g., adding a scenario without copying the entire requirement).
+Esta es una operación **impulsada por el agente**: vas a leer los delta specs y editar directamente los specs principales para aplicar los cambios. Esto permite una fusión inteligente (por ejemplo, agregar un escenario sin copiar todo el requirement).
 
-**Input**: Optionally specify a change name. If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
+**Entrada**: Opcionalmente especificá un nombre de change. Si se omite, verificá si se puede inferir del contexto de la conversación. Si es vago o ambiguo, DEBÉS preguntar por los changes disponibles.
 
-**Steps**
+**Pasos**
 
-1. **If no change name provided, prompt for selection**
+1. **Si no se proporciona un nombre de change, preguntar para que se seleccione uno**
 
-   Run `openspec list --json` to get available changes. Use the **AskUserQuestion tool** to let the user select.
+   Ejecutá `openspec list --json` para obtener los changes disponibles. Usá la **herramienta AskUserQuestion** para que el usuario seleccione.
 
-   Show changes that have delta specs (under `specs/` directory).
+   Mostrá los changes que tienen delta specs (bajo el directorio `specs/`).
 
-   **IMPORTANT**: Do NOT guess or auto-select a change. Always let the user choose.
+   **IMPORTANTE**: NO adivines ni selecciones automáticamente un change. Dejá que el usuario elija siempre.
 
-2. **Find delta specs**
+2. **Encontrar los delta specs**
 
-   Look for delta spec files in `openspec/changes/<name>/specs/*/spec.md`.
+   Buscá los archivos de delta spec en `openspec/changes/<name>/specs/*/spec.md`.
 
-   Each delta spec file contains sections like:
-   - `## ADDED Requirements` - New requirements to add
-   - `## MODIFIED Requirements` - Changes to existing requirements
-   - `## REMOVED Requirements` - Requirements to remove
-   - `## RENAMED Requirements` - Requirements to rename (FROM:/TO: format)
+   Cada archivo de delta spec contiene secciones como:
+   - `## ADDED Requirements` - Nuevos requirements para agregar
+   - `## MODIFIED Requirements` - Cambios a requirements existentes
+   - `## REMOVED Requirements` - Requirements para eliminar
+   - `## RENAMED Requirements` - Requirements para renombrar (formato FROM:/TO:)
 
-   If no delta specs found, inform user and stop.
+   Si no se encuentran delta specs, informá al usuario y detenete.
 
-3. **For each delta spec, apply changes to main specs**
+3. **Para cada delta spec, aplicar los cambios a los specs principales**
 
-   For each capability with a delta spec at `openspec/changes/<name>/specs/<capability>/spec.md`:
+   Para cada capability con un delta spec en `openspec/changes/<name>/specs/<capability>/spec.md`:
 
-   a. **Read the delta spec** to understand the intended changes
+   a. **Leé el delta spec** para entender los cambios previstos
 
-   b. **Read the main spec** at `openspec/specs/<capability>/spec.md` (may not exist yet)
+   b. **Leé el spec principal** en `openspec/specs/<capability>/spec.md` (puede que todavía no exista)
 
-   c. **Apply changes intelligently**:
+   c. **Aplicá los cambios de forma inteligente**:
 
       **ADDED Requirements:**
-      - If requirement doesn't exist in main spec → add it
-      - If requirement already exists → update it to match (treat as implicit MODIFIED)
+      - Si el requirement no existe en el spec principal → agregalo
+      - Si el requirement ya existe → actualizalo para que coincida (tratalo como un MODIFIED implícito)
 
       **MODIFIED Requirements:**
-      - Find the requirement in main spec
-      - Apply the changes - this can be:
-        - Adding new scenarios (don't need to copy existing ones)
-        - Modifying existing scenarios
-        - Changing the requirement description
-      - Preserve scenarios/content not mentioned in the delta
+      - Buscá el requirement en el spec principal
+      - Aplicá los cambios - esto puede ser:
+        - Agregar nuevos escenarios (no hace falta copiar los existentes)
+        - Modificar escenarios existentes
+        - Cambiar la descripción del requirement
+      - Preservá los escenarios/contenido no mencionados en el delta
 
       **REMOVED Requirements:**
-      - Remove the entire requirement block from main spec
+      - Eliminá todo el bloque del requirement del spec principal
 
       **RENAMED Requirements:**
-      - Find the FROM requirement, rename to TO
+      - Buscá el requirement FROM, renombralo a TO
 
-   d. **Create new main spec** if capability doesn't exist yet:
-      - Create `openspec/specs/<capability>/spec.md`
-      - Add Purpose section (can be brief, mark as TBD)
-      - Add Requirements section with the ADDED requirements
+   d. **Creá un nuevo spec principal** si la capability todavía no existe:
+      - Creá `openspec/specs/<capability>/spec.md`
+      - Agregá la sección Purpose (puede ser breve, marcala como TBD)
+      - Agregá la sección Requirements con los requirements de ADDED
 
-4. **Show summary**
+4. **Mostrar un resumen**
 
-   After applying all changes, summarize:
-   - Which capabilities were updated
-   - What changes were made (requirements added/modified/removed/renamed)
+   Después de aplicar todos los cambios, resumí:
+   - Qué capabilities fueron actualizadas
+   - Qué cambios se hicieron (requirements agregados/modificados/eliminados/renombrados)
 
-**Delta Spec Format Reference**
+**Referencia de formato de Delta Spec**
 
 ```markdown
 ## ADDED Requirements
@@ -105,34 +105,34 @@ The system SHALL do something new.
 - TO: `### Requirement: New Name`
 ```
 
-**Key Principle: Intelligent Merging**
+**Principio clave: fusión inteligente**
 
-Unlike programmatic merging, you can apply **partial updates**:
-- To add a scenario, just include that scenario under MODIFIED - don't copy existing scenarios
-- The delta represents *intent*, not a wholesale replacement
-- Use your judgment to merge changes sensibly
+A diferencia de una fusión programática, podés aplicar **actualizaciones parciales**:
+- Para agregar un escenario, simplemente incluí ese escenario bajo MODIFIED - no hace falta copiar los escenarios existentes
+- El delta representa una *intención*, no un reemplazo total
+- Usá tu criterio para fusionar los cambios de forma sensata
 
-**Output On Success**
+**Salida en caso de éxito**
 
 ```
-## Specs Synced: <change-name>
+## Specs Sincronizados: <change-name>
 
-Updated main specs:
+Specs principales actualizados:
 
 **<capability-1>**:
-- Added requirement: "New Feature"
-- Modified requirement: "Existing Feature" (added 1 scenario)
+- Requirement agregado: "New Feature"
+- Requirement modificado: "Existing Feature" (se agregó 1 escenario)
 
 **<capability-2>**:
-- Created new spec file
-- Added requirement: "Another Feature"
+- Se creó un nuevo archivo de spec
+- Requirement agregado: "Another Feature"
 
-Main specs are now updated. The change remains active - archive when implementation is complete.
+Los specs principales ya están actualizados. El change permanece activo - archivalo cuando la implementación esté completa.
 ```
 
-**Guardrails**
-- Read both delta and main specs before making changes
-- Preserve existing content not mentioned in delta
-- If something is unclear, ask for clarification
-- Show what you're changing as you go
-- The operation should be idempotent - running twice should give same result
+**Reglas de seguridad**
+- Leé tanto el delta spec como el spec principal antes de hacer cambios
+- Preservá el contenido existente no mencionado en el delta
+- Si algo no está claro, pedí una aclaración
+- Mostrá lo que vas cambiando a medida que avanzás
+- La operación debería ser idempotente - ejecutarla dos veces debería dar el mismo resultado

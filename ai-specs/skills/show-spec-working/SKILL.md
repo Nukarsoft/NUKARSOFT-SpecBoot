@@ -1,21 +1,21 @@
 ---
 name: show-spec-working
-description: Use when the user asks "show me X", "demo X", "walk me through X", "how X works" or requests a live feature demonstration from a spec, feature or ticket.
+description: Usar cuando el usuario pide "show me X", "demo X", "walk me through X", "how X works" o solicita una demostración en vivo de una funcionalidad a partir de un spec, feature o ticket.
 author: LIDR.co
 version: 1.0.0
 ---
 
-# show-spec-working Skill
+# Skill show-spec-working
 
-Demonstrate a spec in a runnable way.
+Demostrá un spec de forma ejecutable.
 
-If the user does not provide explicit context, use the spec/change currently being worked on in this session.
+Si el usuario no proporciona contexto explícito, usá el spec/change en el que se está trabajando actualmente en esta sesión.
 
-Always end by reporting completion in chat.
+Siempre finalizá informando la finalización en el chat.
 
-## Trigger phrases (high priority)
+## Frases disparadoras (alta prioridad)
 
-Treat these expressions as execution commands, not analysis requests:
+Tratá estas expresiones como comandos de ejecución, no como pedidos de análisis:
 
 - `show me X`
 - `demo X`
@@ -24,114 +24,114 @@ Treat these expressions as execution commands, not analysis requests:
 - `how X works`
 - `prove X works`
 
-When any of these appear, run the demonstration workflow directly.
-Do not stop at a feature summary or quick report.
+Cuando aparezca cualquiera de estas, ejecutá el flujo de demostración directamente.
+No te detengas en un resumen de la funcionalidad ni en un reporte rápido.
 
-## Inputs
+## Entradas
 
-- Optional spec context from user:
-  - Direct ticket id in text (for example: `SCRUM-10`)
-  - Feature name
+- Contexto de spec opcional del usuario:
+  - Id de ticket directo en el texto (por ejemplo: `SCRUM-10`)
+  - Nombre de la feature
   - Endpoint
-  - Frontend route
-- If missing, infer from current session context and currently active work.
+  - Ruta del frontend
+- Si falta, inferilo del contexto de la sesión actual y del trabajo activo en curso.
 
-## Workflow
+## Flujo de trabajo
 
-### Step 1 - Resolve target spec and scope
+### Paso 1 - Resolver el spec objetivo y el alcance
 
-1. Identify the target spec/change:
-   - Prefer explicit user-provided context.
-   - If user text contains a ticket id pattern like `[A-Z]+-[0-9]+`, use it as primary context (example: `show me SCRUM-10`).
-   - Otherwise, infer the spec currently being worked on.
-2. Determine modality:
-   - `frontend` when the spec includes UI behavior.
-   - `backend-only` when it only defines API behavior.
-   - `mixed` when both exist.
-3. List concrete scenarios to demo from the spec acceptance criteria.
+1. Identificá el spec/change objetivo:
+   - Preferí el contexto explícito proporcionado por el usuario.
+   - Si el texto del usuario contiene un patrón de id de ticket como `[A-Z]+-[0-9]+`, usalo como contexto principal (ejemplo: `show me SCRUM-10`).
+   - En caso contrario, inferí el spec en el que se está trabajando actualmente.
+2. Determiná la modalidad:
+   - `frontend` cuando el spec incluye comportamiento de UI.
+   - `backend-only` cuando solo define comportamiento de API.
+   - `mixed` cuando existen ambos.
+3. Listá escenarios concretos para demostrar a partir de los criterios de aceptación del spec.
 
-### Step 1.1 - Anti-report guardrail
+### Paso 1.1 - Regla de seguridad anti-reporte
 
-Before continuing, enforce this rule:
+Antes de continuar, aplicá esta regla:
 
-- Never finish after only analyzing requirements.
-- Never return only a quick report when the user asked to "show" or "demo".
-- If execution is blocked, explicitly report the blocker and ask for exactly what is needed to continue the live demo.
+- Nunca termines después de solo analizar los requirements.
+- Nunca devuelvas solo un reporte rápido cuando el usuario pidió "mostrar" o "hacer una demo".
+- Si la ejecución está bloqueada, informá explícitamente el bloqueo y pedí exactamente lo que se necesita para continuar la demo en vivo.
 
-### Step 2 - Frontend demonstration path
+### Paso 2 - Ruta de demostración de frontend
 
-Run this path when modality is `frontend` or `mixed`.
+Ejecutá esta ruta cuando la modalidad sea `frontend` o `mixed`.
 
-1. Start required local services if needed.
-2. Use browser automation to open the app and navigate to the target feature.
-3. Demonstrate feature behavior from the spec, one interaction at a time.
-   - Example sequence for list/table features:
-     - Open listing page
-     - Verify table data appears
-     - Use search box
-     - Apply filters
-     - Change sorting
-     - Open details view
-4. After each meaningful action:
-   - Verify visible result matches spec expectations.
-5. Stop on a stable end state and let the user continue manual exploration or close the window.
-6. Keep the browser open unless the user asks to close it.
+1. Iniciá los servicios locales requeridos si es necesario.
+2. Usá automatización de navegador para abrir la app y navegar hasta la funcionalidad objetivo.
+3. Demostrá el comportamiento de la funcionalidad a partir del spec, una interacción a la vez.
+   - Secuencia de ejemplo para funcionalidades de listado/tabla:
+     - Abrir la página de listado
+     - Verificar que aparecen los datos de la tabla
+     - Usar el cuadro de búsqueda
+     - Aplicar filtros
+     - Cambiar el ordenamiento
+     - Abrir la vista de detalle
+4. Después de cada acción significativa:
+   - Verificá que el resultado visible coincide con las expectativas del spec.
+5. Detenete en un estado final estable y dejá que el usuario continúe la exploración manual o cierre la ventana.
+6. Mantené el navegador abierto a menos que el usuario pida cerrarlo.
 
-### Step 3 - Backend API demonstration path
+### Paso 3 - Ruta de demostración de API backend
 
-Run this path when modality is `backend-only` or `mixed`.
+Ejecutá esta ruta cuando la modalidad sea `backend-only` o `mixed`.
 
-1. Identify the endpoint(s) and sample payload(s) defined by the spec.
-2. Execute curl command(s) that show real response behavior.
-3. If any call changes data state (CREATE/UPDATE/DELETE):
-   - Execute the paired restore/reset curl command (or equivalent restore action) immediately after demonstrating the behavior.
-4. Confirm restored state so repeated demos remain deterministic.
-5. Include command and key response evidence in chat (concise).
+1. Identificá el/los endpoint(s) y el/los payload(s) de ejemplo definidos por el spec.
+2. Ejecutá el/los comando(s) curl que muestren el comportamiento real de la respuesta.
+3. Si alguna llamada cambia el estado de los datos (CREATE/UPDATE/DELETE):
+   - Ejecutá el comando curl de restauración/reset correspondiente (o la acción de restauración equivalente) inmediatamente después de demostrar el comportamiento.
+4. Confirmá el estado restaurado para que las demos repetidas sigan siendo deterministas.
+5. Incluí el comando y la evidencia clave de la respuesta en el chat (de forma concisa).
 
-## Browser MCP requirements
+## Requisitos del MCP de navegador
 
-Before calling any MCP browser tool:
+Antes de llamar a cualquier herramienta MCP de navegador:
 
-1. Read the MCP tool descriptor JSON first.
-2. Follow the server instructions for lock/unlock and snapshot-refresh workflow.
-3. Avoid repeated blind retries; if blocked, report blocker and best next action.
+1. Leé primero el JSON descriptor de la herramienta MCP.
+2. Seguí las instrucciones del servidor para el flujo de lock/unlock y actualización de snapshots.
+3. Evitá reintentos ciegos repetidos; si está bloqueado, informá el bloqueo y la mejor acción siguiente.
 
-## API demo requirements
+## Requisitos de la demo de API
 
-- Use explicit `curl` commands (not pseudocode) whenever environment data is available.
-- Mask sensitive values in chat output.
-- Keep commands idempotent when possible.
-- Include restore commands for any state-changing operation.
+- Usá comandos `curl` explícitos (no pseudocódigo) siempre que haya datos de entorno disponibles.
+- Enmascará los valores sensibles en la salida del chat.
+- Mantené los comandos idempotentes cuando sea posible.
+- Incluí comandos de restauración para cualquier operación que cambie el estado.
 
-## Completion contract
+## Contrato de finalización
 
-Always send a final chat message containing:
+Siempre enviá un mensaje final en el chat que contenga:
 
-1. Target spec/change demonstrated.
-2. What was executed:
-   - Frontend flows shown.
-   - Backend curl commands executed.
-3. Verification result per demonstrated scenario (pass/fail with short note).
-4. Data restore status (if applicable).
-5. Final handoff:
-   - "Demo complete. You can continue checking in the open browser window or ask me to close it."
+1. Spec/change objetivo demostrado.
+2. Qué se ejecutó:
+   - Flujos de frontend mostrados.
+   - Comandos curl de backend ejecutados.
+3. Resultado de verificación por cada escenario demostrado (pass/fail con una nota breve).
+4. Estado de restauración de datos (si corresponde).
+5. Cierre final:
+   - "Demo completa. Podés seguir revisando en la ventana del navegador abierta o pedirme que la cierre."
 
-## Output format
+## Formato de salida
 
-Use this concise structure in the final chat response:
+Usá esta estructura concisa en la respuesta final del chat:
 
 ```markdown
-Spec demo completed for: <spec/change>
+Demo de spec completada para: <spec/change>
 
-Frontend walkthrough:
-- <step/result>
+Recorrido de frontend:
+- <paso/resultado>
 
-Backend API walkthrough:
-- <curl + key response note>
+Recorrido de API backend:
+- <curl + nota clave de la respuesta>
 
-Data restore:
-- <restored / not needed / failed + reason>
+Restauración de datos:
+- <restaurada / no necesaria / falló + motivo>
 
-Next:
-- You can continue in the open browser window, or ask me to close it.
+Siguiente:
+- Podés seguir revisando en la ventana del navegador abierta, o pedirme que la cierre.
 ```
