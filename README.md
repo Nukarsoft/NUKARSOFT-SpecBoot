@@ -86,15 +86,6 @@ Alternative for step 2 (Claude Code users):
 - You can alternatively install the Claude plugin and use it as the coding agent for this import step.
 - This only changes **how** you install Specboot. It does **not** install OpenSpec, does **not** update OpenSpec config, and does **not** customize `docs/`.
 
-Quick install:
-
-```bash
-npx @lidr/lidr-specboot
-```
-
-This copies all files into your project and recreates the symlink structure automatically. Safe to re-run: existing files are never overwritten.
-
-
 ### 3) Customize `docs/` for Your Project (Mandatory)
 
 This step is required. If you skip it, your AI assistant will use generic technical context instead of your real project context.
@@ -166,8 +157,6 @@ Your AI copilot should automatically load:
 All paths and rules are configured to work seamlessly without manual adjustments.
 
 ## 💡 Usage: Official OpenSpec Workflow
-
-The recommended workflow in this repository uses official OpenSpec commands:
 
 The recommended workflow in this repository uses official OpenSpec commands:
 
