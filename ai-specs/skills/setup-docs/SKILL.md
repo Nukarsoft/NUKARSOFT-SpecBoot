@@ -53,7 +53,7 @@ git remote get-url origin 2>/dev/null
   - ¿El proyecto va a vivir en GitHub? Si sí, ¿cuál es la ruta (`owner/repo` o URL completa de clone)?
   - ¿Todavía no existe el repo (proyecto nuevo sin remoto aún)? Dejalo anotado como pendiente en vez de inventarlo.
   - ¿El proyecto no va a usar GitHub (repo solo local, u otro proveedor como GitLab/Bitbucket)? Anotá esa decisión también — nunca asumas GitHub por defecto.
-- Nunca inventes ni asumas una ruta de GitHub: si el usuario todavía no la tiene, dejala explícitamente marcada como "pendiente de definir" en `development_guide.md` en vez de dejar sin avisar el placeholder de ejemplo (`git@github.com:LIDR-academy/...`).
+- Nunca inventes ni asumas una ruta de GitHub: si el usuario todavía no la tiene, dejala explícitamente marcada como "pendiente de definir" en `development_guide.md` en vez de dejar sin avisar el placeholder de ejemplo (`git@github.com:your-org/your-project.git`).
 
 Esta confirmación determina qué URL de clone y qué convención de rama base (ej. `main`, `develop`) van en `development_guide.md`, y es la información que después usan flujos como el skill `commit` para hacer push, abrir PRs y, si el proyecto lo requiere, deployar.
 
@@ -75,7 +75,7 @@ Para cada uno, reemplazá el contenido de referencia genérico (stack de ejemplo
 - **`backend-standards.md`** / **`frontend-standards.md`**: actualizá stack tecnológico, patrones de arquitectura, estructura de carpetas, convenciones de testing y el frontmatter `globs` para que apunten a las rutas reales del proyecto.
 - **`api-spec.yml`**: reemplazá título, descripción, paths y schemas de ejemplo por los endpoints y modelos reales detectados; si el proyecto todavía no expone una API, dejá un esqueleto mínimo válido y una nota explícita de que está pendiente de completar.
 - **`data-model.md`**: reemplazá las entidades de ejemplo por las entidades/tablas reales detectadas (campos, relaciones, diagrama entidad-relación si corresponde).
-- **`development_guide.md`**: reemplazá los pasos de instalación/ejecución de ejemplo por los reales del proyecto (gestor de paquetes, scripts, variables de entorno, Docker, base de datos, comandos de test, etc.), incluyendo el comando `git clone` de ejemplo (`LIDR-academy/AI4Devs-LTI-extended`), que debe reemplazarse por la URL real confirmada en el [Paso 3](#paso-3--confirmar-el-repositorio-de-github-para-merge-y-deploy) (o dejarse marcada como pendiente si el usuario todavía no la tiene).
+- **`development_guide.md`**: reemplazá los pasos de instalación/ejecución de ejemplo por los reales del proyecto (gestor de paquetes, scripts, variables de entorno, Docker, base de datos, comandos de test, etc.), incluyendo el comando `git clone` de ejemplo (`your-org/your-project`), que debe reemplazarse por la URL real confirmada en el [Paso 3](#paso-3--confirmar-el-repositorio-de-github-para-merge-y-deploy) (o dejarse marcada como pendiente si el usuario todavía no la tiene).
 - **`documentation-standards.md`**: mantené el proceso de mantenimiento de documentación (qué actualizar y cuándo), ajustando solo la regla de idioma según el [Paso 5](#paso-5--reglas-de-idioma).
 
 ### Paso 5 — Reglas de idioma
