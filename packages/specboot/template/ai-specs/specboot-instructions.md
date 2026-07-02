@@ -78,22 +78,13 @@ Copy this repository into your project first, so the `docs/` and `ai-specs/` pat
 
 ```bash
 # Clone or copy this repository into your project (`-n`: do not overwrite existing files so you keep project's original README)
-cp -rn lidr-specboot/* your-project/
+cp -rn <cloned-repo-folder>/* your-project/
 ```
 
 Alternative for step 2 (Claude Code users):
 
 - You can alternatively install the Claude plugin and use it as the coding agent for this import step.
 - This only changes **how** you install Specboot. It does **not** install OpenSpec, does **not** update OpenSpec config, and does **not** customize `docs/`.
-
-Quick install:
-
-```bash
-npx @lidr/lidr-specboot
-```
-
-This copies all files into your project and recreates the symlink structure automatically. Safe to re-run: existing files are never overwritten.
-
 
 ### 3) Customize `docs/` for Your Project (Mandatory)
 
@@ -167,14 +158,15 @@ All paths and rules are configured to work seamlessly without manual adjustments
 
 The recommended workflow in this repository uses official OpenSpec commands:
 
-The recommended workflow in this repository uses official OpenSpec commands:
-
 1. **`/enrich-us`** (optional): refine a vague user story or idea
-2. **`/ff`**: create all required OpenSpec artifacts
-3. **`/apply`**: implement tasks one by one
-4. **`/verify`**: validate implementation against the change artifacts
-5. **`/archive`**: archive the completed change
-6. **`/commit`**: create focused commit(s) after verification
+2. **`/new`**: create a new OpenSpec change (currently a copy of `/ff`)
+3. **`/ff`**: create all required OpenSpec artifacts (feature file, tasks, etc.)
+   - Running `/new` followed by `/ff` is equivalent to the new `/propose` command
+4. **`/apply`**: implement tasks one by one
+5. **`/verify`**: validate implementation against the change artifacts
+6. **`/adversarial-review`**: independent red-team code review before archiving
+7. **`/archive`**: archive the completed change
+8. **`/commit`**: create focused commit(s) and manages Pull Request after verification
 Workflow reference image:
 
 ![OpenSpec custom workflow reference](https://drive.google.com/uc?export=view&id=1H5pAfjzpvYLlaGxJOrd6zox2Q87HxGkh)
@@ -204,6 +196,7 @@ Optional first step (recommended): create a dedicated worktree before running th
 /ff SCRUM-10
 /apply SCRUM-10
 /verify SCRUM-10
+/adversarial-review SCRUM-10
 /archive SCRUM-10
 /commit
 ```
@@ -219,7 +212,7 @@ Skills live in `ai-specs/skills/` and are mirrored into `.claude/skills/` and `.
 - **`writing-skills`** — Author and verify new skills (or refactor existing ones) following TDD-style validation before deployment. Use when adding a skill to `ai-specs/skills/` or editing an existing `SKILL.md`.
 - **`code-auditing`** — Run a systematic 6-phase code quality audit covering security, performance, type safety, dead code, and library best practices, ending with a prioritized action plan. Use for pre-release reviews, technical-debt sweeps, and dependency audits.
 
-Other active skills in this repository: `commit`, `explain`, `meta-prompt`, `update-docs`. See each `ai-specs/skills/<name>/SKILL.md` for the full instructions.
+Other active skills in this repository: `adversarial-review`, `commit`, `explain`, `meta-prompt`, `setup-docs`, `show-spec-working`, `sync-agent-symlinks`, `update-docs`. See each `ai-specs/skills/<name>/SKILL.md` for the full instructions.
 
 ## 📖 Core Development Rules
 
@@ -338,7 +331,7 @@ When contributing to the standards:
 
 1. Update `base-standards.md` (single source of truth)
 2. Test with multiple AI copilots to ensure compatibility
-3. Update generated examples in `changes/` if needed
+3. Update generated examples in `openspec/changes/` if needed
 4. Document breaking changes clearly
 5. Follow the same standards you're defining!
 

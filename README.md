@@ -78,7 +78,7 @@ Copy this repository into your project first, so the `docs/` and `ai-specs/` pat
 
 ```bash
 # Clone or copy this repository into your project (`-n`: do not overwrite existing files so you keep project's original README)
-cp -rn lidr-specboot/* your-project/
+cp -rn <cloned-repo-folder>/* your-project/
 ```
 
 Alternative for step 2 (Claude Code users):
@@ -214,7 +214,7 @@ Skills live in `ai-specs/skills/` and are mirrored into `.claude/skills/` and `.
 - **`writing-skills`** — Author and verify new skills (or refactor existing ones) following TDD-style validation before deployment. Use when adding a skill to `ai-specs/skills/` or editing an existing `SKILL.md`.
 - **`code-auditing`** — Run a systematic 6-phase code quality audit covering security, performance, type safety, dead code, and library best practices, ending with a prioritized action plan. Use for pre-release reviews, technical-debt sweeps, and dependency audits.
 
-Other active skills in this repository: `commit`, `explain`, `meta-prompt`, `setup-docs`, `update-docs`. See each `ai-specs/skills/<name>/SKILL.md` for the full instructions.
+Other active skills in this repository: `adversarial-review`, `commit`, `explain`, `meta-prompt`, `openspec-sync-specs`, `setup-docs`, `show-spec-working`, `sync-agent-symlinks`, `update-docs`. See each `ai-specs/skills/<name>/SKILL.md` for the full instructions.
 
 ## 📖 Core Development Rules
 
@@ -335,7 +335,7 @@ When contributing to the standards:
 
 1. Update `base-standards.md` (single source of truth)
 2. Test with multiple AI copilots to ensure compatibility
-3. Update generated examples in `changes/` if needed
+3. Update generated examples in `openspec/changes/` if needed
 4. Document breaking changes clearly
 5. Follow the same standards you're defining!
 

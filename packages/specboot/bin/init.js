@@ -49,7 +49,7 @@ function createSymlink(linkRelPath, symlinkTarget) {
 }
 
 function main() {
-  console.log('\n  lidr-specboot');
+  console.log('\n  nukarsoft-specboot');
   console.log('  Augmented Spec-driven development powered by OpenSpec\n');
   console.log(`  Target: ${target}\n`);
 

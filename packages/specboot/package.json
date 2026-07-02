@@ -1,7 +1,7 @@
 {
-  "name": "@lidr/lidr-specboot",
+  "name": "nukarsoft-specboot",
   "version": "0.1.0",
-  "description": "Augmented Spec-driven development powered by OpenSpec. Boot an extended version ofOpenSpec's Spec-Driven workflow in any project and give superpowers to any coding agent. ",
+  "description": "Augmented Spec-driven development powered by OpenSpec. Boot an extended version of OpenSpec's Spec-Driven workflow in any project and give superpowers to any coding agent.",
   "keywords": [
     "claude",
     "cursor",
@@ -12,10 +12,14 @@
     "llm"
   ],
   "homepage": "https://lidr.co/ia-devs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mgportomene/NUKARSOFT-SpecBoot.git"
+  },
   "license": "MIT",
   "author": "LIDR.co",
   "bin": {
-    "lidr-specboot": "./bin/init.js"
+    "nukarsoft-specboot": "./bin/init.js"
   },
   "files": [
     "bin/",
