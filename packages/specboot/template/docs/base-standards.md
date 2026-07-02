@@ -30,6 +30,7 @@ For detailed standards and guidelines specific to different areas of the project
 - [Backend Standards](./backend-standards.md) - API development, database patterns, testing, security and backend best practices
 - [Frontend Standards](./frontend-standards.md) - React components, UI/UX guidelines, and frontend architecture
 - [Documentation Standards](./documentation-standards.md) - Technical documentation structure, formatting, and maintenance guidelines, including AI standards like this document
+- [OpenSpec Tasks Mandatory Steps](./openspec-tasks-mandatory-steps.md) - Full mandatory-steps checklist for OpenSpec `tasks.md` artifacts, including the required unit-test verification report template and its `specs/<change-name>/reports/` path convention (complements §6 below)
 
 ## 4. Project Skills
 

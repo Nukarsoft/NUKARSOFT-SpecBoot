@@ -28,7 +28,7 @@ Aplica igual para un **proyecto nuevo** (sin código todavía) y para un **proye
 |---|---------|------------|---------------------------|
 | 1 | `/enrich-us <TICKET-ID>` | Lee el ticket (ClickUp o texto pegado) y devuelve una versión enriquecida (`## Original` / `## Enhanced`). Primera vez que se usa ClickUp: pregunta el Workspace | En el chat, y opcionalmente escrito de vuelta en el propio ticket de ClickUp. `.claude/clickup-workspace.local.md` (local, no versionado) guarda el Workspace elegido |
 | 2 | `/new <TICKET-ID>` y luego `/ff <TICKET-ID>` (o `/propose`, equivalente a ambos juntos) | Crea el change de OpenSpec: propuesta, diseño, tareas y specs delta | `openspec/changes/<TICKET-ID>/proposal.md`, `design.md`, `tasks.md`, `specs/<capability>/spec.md` |
-| 3 | `/apply <TICKET-ID>` | Implementa las tareas de `tasks.md` una por una: código + tests | Diff de código/tests + `tasks.md` marcado como completado. Si tu proyecto sincronizó `openspec-tasks-mandatory-steps.md` (ver Notas), también reportes en `specs/<TICKET-ID>/reports/` y `coverage/YYYYMMDD-backend-coverage.md` |
+| 3 | `/apply <TICKET-ID>` | Implementa las tareas de `tasks.md` una por una: código + tests | Diff de código/tests + `tasks.md` marcado como completado, más el reporte de verificación en `specs/<TICKET-ID>/reports/YYYY-MM-DD-step-N+1-unit-test-and-db-verification.md` (según `docs/openspec-tasks-mandatory-steps.md`) y `coverage/YYYYMMDD-backend-coverage.md` |
 | 4 | `/verify <TICKET-ID>` | Valida la implementación contra los artefactos del change (comando propio de OpenSpec) | Solo en el chat |
 | 5 | `/adversarial-review <TICKET-ID>` (o con URL de PR) | Revisión red-team independiente: tabla de hallazgos + veredicto PASS/FAIL | Solo en el chat — no genera archivo |
 | 6 | `/archive <TICKET-ID>` | Archiva el change y sincroniza los specs principales | `openspec/specs/<capability>/spec.md` actualizado |
@@ -48,5 +48,4 @@ Specboot no mergea ni deploya. Una vez creado el PR:
 ## Notas / limitaciones conocidas
 
 - `adversarial-review` y `show-spec-working` **nunca** escriben archivos — su output vive solo en el chat.
-- La convención de reporte por-cambio (`specs/<change-name>/reports/…`) está definida en `docs/openspec-tasks-mandatory-steps.md`, que hoy **solo existe en este repo** y no se copia a proyectos nuevos. Si la querés en tus proyectos, hay que sincronizarla al template primero.
 - `docs/frontend-standards.md` no define un path de reporte de cobertura (a diferencia de backend, que sí tiene `coverage/YYYYMMDD-backend-coverage.md`).
