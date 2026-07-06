@@ -24,21 +24,7 @@ Aplica igual para un **proyecto nuevo** (sin código todavía) y para un **proye
 
 ---
 
-## Parte 2 — Ciclo por ticket (se repite para cada feature/bug)
-
-| # | Comando | Qué genera | Dónde queda la evidencia |
-|---|---------|------------|---------------------------|
-| 1 | `/enrich-us <TICKET-ID>` | Lee el ticket de ClickUp (o texto pegado), genera la US enriquecida con detalle técnico completo (`## Original` / `## Enhanced`) y la graba de vuelta en ClickUp. Primera vez: pregunta el Workspace y lo guarda en `.claude/clickup-workspace.local.md`. | 🔗 **ClickUp:** descripción del ticket actualizada con `[original]` y `[enhanced]` + estado cambiado a **En curso**<br>📁 **Local (no versionado):** `.claude/clickup-workspace.local.md` |
-| 2 | `/new <TICKET-ID>` y luego `/ff <TICKET-ID>` (o `/propose`, equivalente a ambos juntos) | Crea el change de OpenSpec: propuesta, diseño, tareas y specs delta. | 📁 **Repo:**<br>`openspec/changes/<TICKET-ID>/proposal.md`<br>`openspec/changes/<TICKET-ID>/design.md`<br>`openspec/changes/<TICKET-ID>/tasks.md`<br>`openspec/changes/<TICKET-ID>/specs/<capability>/spec.md` |
-| 3 | `/apply <TICKET-ID>` | Implementa las tareas de `tasks.md` una por una: código + tests. | 📁 **Repo:**<br>Código y tests en las rutas del proyecto<br>`openspec/changes/<TICKET-ID>/tasks.md` (marcado como completado)<br>`openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-step-N-unit-test-and-db-verification.md`<br>`coverage/YYYYMMDD-backend-coverage.md` |
-| 4 | `/verify <TICKET-ID>`<br>+ `/save-verify-report <TICKET-ID>` | Valida la implementación contra los artefactos del change. `save-verify-report` persiste el resultado. | 📁 **Repo:** `openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-verify-report.md`<br>🔗 **ClickUp:** comentario con el veredicto (PASS / FAIL / PARTIAL) |
-| 5 | `/adversarial-review <TICKET-ID>` (o URL de PR) | Revisión red-team: tabla de hallazgos + veredicto PASS/FAIL. Para testing manual: grabá con **Loom** (loom.com, gratis) y pegá el link en ClickUp. | 📁 **Repo:** `openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-adversarial-review.md`<br>🔗 **ClickUp:** comentario con veredicto + link de grabación Loom (si aplica) |
-| 6 | `/archive <TICKET-ID>` | Archiva el change y sincroniza los specs principales. | 📁 **Repo:** `openspec/specs/<capability>/spec.md` actualizado |
-| 7 | `/commit` | Crea el commit, pushea el branch y abre (o actualiza) el PR con `gh`. Si hay ticket de ClickUp: actualiza el estado. | 📁 **Repo:** commit en el branch remoto<br>🔗 **GitHub:** PR abierto (URL en el chat)<br>🔗 **ClickUp:** estado cambiado a **En progreso** + comentario con URL del PR |
-
----
-
-## Parte 2b — Actualizar specboot en un proyecto existente
+## Parte 1b — Mantener specboot actualizado (cuando el repo recibe mejoras)
 
 Si ya instalaste specboot en tu proyecto y el repo de NUKARSOFT-SpecBoot recibió mejoras (nuevos skills, comandos corregidos, agentes actualizados), podés traer solo esos cambios **sin pisar lo que ya personalizaste** (`docs/`, `openspec/`, tu código).
 
@@ -54,6 +40,22 @@ Si ya instalaste specboot en tu proyecto y el repo de NUKARSOFT-SpecBoot recibi�
 ```
 copy C:\temp\nukarsoft-specboot\ai-specs\skills\commit\SKILL.md C:\ruta\tu-proyecto\ai-specs\skills\commit\SKILL.md
 ```
+
+---
+
+## Parte 2 — Ciclo por ticket (se repite para cada feature/bug)
+
+| # | Comando | Qué genera | Dónde queda la evidencia |
+|---|---------|------------|---------------------------|
+| 1 | `/enrich-us <TICKET-ID>` | Lee el ticket de ClickUp (o texto pegado), genera la US enriquecida con detalle técnico completo (`## Original` / `## Enhanced`) y la graba de vuelta en ClickUp. Primera vez: pregunta el Workspace y lo guarda en `.claude/clickup-workspace.local.md`. | 🔗 **ClickUp:** descripción del ticket actualizada con `[original]` y `[enhanced]` + estado cambiado a **En curso**<br>📁 **Local (no versionado):** `.claude/clickup-workspace.local.md` |
+| 2 | `/new <TICKET-ID>` y luego `/ff <TICKET-ID>` (o `/propose`, equivalente a ambos juntos) | Crea el change de OpenSpec: propuesta, diseño, tareas y specs delta. | 📁 **Repo:**<br>`openspec/changes/<TICKET-ID>/proposal.md`<br>`openspec/changes/<TICKET-ID>/design.md`<br>`openspec/changes/<TICKET-ID>/tasks.md`<br>`openspec/changes/<TICKET-ID>/specs/<capability>/spec.md` |
+| 3 | `/apply <TICKET-ID>` | Implementa las tareas de `tasks.md` una por una: código + tests. | 📁 **Repo:**<br>Código y tests en las rutas del proyecto<br>`openspec/changes/<TICKET-ID>/tasks.md` (marcado como completado)<br>`openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-step-N-unit-test-and-db-verification.md`<br>`coverage/YYYYMMDD-backend-coverage.md` |
+| 4 | `/verify <TICKET-ID>`<br>+ `/save-verify-report <TICKET-ID>` | Valida la implementación contra los artefactos del change. `save-verify-report` persiste el resultado. | 📁 **Repo:** `openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-verify-report.md`<br>🔗 **ClickUp:** comentario con el veredicto (PASS / FAIL / PARTIAL) |
+| 5 | `/adversarial-review <TICKET-ID>` (o URL de PR) | Revisión red-team: tabla de hallazgos + veredicto PASS/FAIL. Para testing manual: grabá con **Loom** (loom.com, gratis) y pegá el link en ClickUp. | 📁 **Repo:** `openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-adversarial-review.md`<br>🔗 **ClickUp:** comentario con veredicto + link de grabación Loom (si aplica) |
+| 6 | `/archive <TICKET-ID>` | Archiva el change y sincroniza los specs principales. | 📁 **Repo:** `openspec/specs/<capability>/spec.md` actualizado |
+| 7 | `/commit` | Crea el commit, pushea el branch y abre (o actualiza) el PR con `gh`. Si hay ticket de ClickUp: actualiza el estado. | 📁 **Repo:** commit en el branch remoto<br>🔗 **GitHub:** PR abierto (URL en el chat)<br>🔗 **ClickUp:** estado cambiado a **En progreso** + comentario con URL del PR |
+
+---
 
 ---
 
