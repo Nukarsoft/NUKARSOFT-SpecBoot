@@ -104,6 +104,36 @@ PASS | PASS WITH GAPS | FAIL
 - ...
 ```
 
+## Persistencia del reporte (obligatorio)
+
+Una vez generado el reporte, **siempre** persistilo en dos lugares:
+
+### 1. Archivo en el repo
+
+Guardá el reporte completo como archivo Markdown en:
+
+```
+openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-adversarial-review.md
+```
+
+Ejemplo: `openspec/changes/SCRUM-42/reports/2026-07-07-adversarial-review.md`
+
+El archivo debe contener el reporte completo tal como se generó (scope, sources, findings, verdict, next steps).
+
+### 2. Comentario en ClickUp (si aplica modo ClickUp)
+
+Si en la sesión hay un ticket de ClickUp identificado (`.claude/clickup-workspace.local.md` existe), agregá un comentario al ticket con:
+- El veredicto (`PASS` / `PASS WITH GAPS` / `FAIL`)
+- Un resumen de los hallazgos (bloqueantes y mayores, si los hay)
+- La ruta del archivo de reporte generado en el repo
+
+### 3. Grabaciones de pantalla (testing manual)
+
+Si el ticket incluye testing manual o demos:
+- Grabá con **Loom** (gratis en [loom.com](https://loom.com)) o con Windows Game Bar (`Win+G`)
+- Pegá el link de Loom como comentario en el ticket de ClickUp
+- Opcionalmente, guardá el archivo de video en `openspec/changes/<TICKET-ID>/recordings/`
+
 ## Barreras de protección (guardrails)
 
 - **No** elogies la implementación para "balancear" la crítica, a menos que una fortaleza **mitigue directamente un riesgo documentado**.

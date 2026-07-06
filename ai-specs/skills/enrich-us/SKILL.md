@@ -32,9 +32,9 @@ Seguí estos pasos:
 7. El formato de salida siempre debe incluir:
    - `## Original`
    - `## Enhanced`
-8. La escritura en ClickUp es opcional y solo aplica en modo ClickUp:
-   - Actualizá el ticket de ClickUp agregando el contenido enriquecido después del contenido original, con secciones `h2` claras `[original]` y `[enhanced]` y formato legible (listas/fragmentos de código cuando sea útil).
-   - Si el estado del ticket es `To refine`, movelo a `Pending refinement validation`.
+8. La escritura en ClickUp aplica **siempre** en modo ClickUp (no es opcional):
+   - Actualizá la descripción del ticket de ClickUp reemplazando el contenido existente con la versión enriquecida completa: secciones `h2` claras `[original]` y `[enhanced]`, con todo el detalle técnico generado (campos, endpoints, archivos a modificar, criterios de aceptación, tests, requisitos no funcionales). Usá listas y fragmentos de código cuando sea útil.
+   - Cambiá el estado del ticket a `En curso` (independientemente del estado actual).
 
 ## Selección de Workspace de ClickUp
 

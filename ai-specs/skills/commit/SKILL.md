@@ -81,6 +81,13 @@ Si el usuario solicitó **explícitamente** no realizar operaciones de git (ej. 
   - **Descripción**: Resumí el conjunto de cambios, enlazá al ticket si es relevante, y anotá cualquier testing o seguimiento pendiente.
 - Si el repo usa protección de branch o checks requeridos, mencioná que el PR está listo para revisión una vez que los checks pasen.
 
+## 5b. Actualizar estado en ClickUp (si aplica)
+
+- Si en la sesión actual se usó ClickUp (es decir, existe `.claude/clickup-workspace.local.md`), y si `$ARGUMENTS` contiene un ID de ticket de ClickUp:
+  - Resolvé el Workspace usando el mismo mecanismo de [Selección de Workspace de ClickUp en el skill enrich-us].
+  - Cambiá el estado del ticket a `En progreso`.
+  - Agregá un comentario al ticket con la URL del PR creado.
+
 ## 6. Resumen para el usuario
 
 - Reportá qué se commiteó (archivos y alcance).
