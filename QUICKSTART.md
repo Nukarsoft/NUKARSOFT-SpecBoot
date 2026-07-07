@@ -49,6 +49,16 @@ copy C:\temp\nukarsoft-specboot\ai-specs\skills\commit\SKILL.md C:\ruta\tu-proye
 
 ---
 
+## ⚠️ Regla de oro antes de empezar un ticket
+
+**Claude NO debe implementar código directamente desde el chat.** Aunque Claude ofrezca "¿querés que implemente el cambio?", la respuesta siempre debe ser **no** — seguí los pasos del flujo explícitamente.
+
+El motivo: si Claude implementa directo, no se generan los artefactos de OpenSpec (`proposal.md`, `design.md`, `tasks.md`, `specs/`). Sin esos artefactos, `/verify`, `/archive` y la trazabilidad completa del cambio no funcionan.
+
+**Claude está configurado para guiarte paso a paso.** Después de cada comando, te va a preguntar si querés continuar con el siguiente. Seguí esa guía.
+
+---
+
 ## Parte 2 — Ciclo por ticket (se repite para cada feature/bug)
 
 | # | Comando | Qué genera | Dónde queda la evidencia |

@@ -56,6 +56,24 @@ Este mecanismo aplica a **cualquier skill que use el MCP de ClickUp** (empezando
    4. Usá ese Workspace para la acción actual y para todas las acciones futuras de ClickUp en este proyecto.
 4. `.claude/clickup-workspace.local.md` es una preferencia local del proyecto: no se versiona (está en `.gitignore`) y no se comparte entre proyectos ni repos.
 
+## Paso final — Guiar al siguiente paso del flujo SpecBoot
+
+> ⚠️ **IMPORTANTE:** Al terminar este skill, **NO ofrezcas implementar el cambio, no generes código, no propongas tareas de desarrollo**. El flujo de SpecBoot requiere pasar primero por OpenSpec.
+
+Una vez completada la escritura en ClickUp, mostrá este mensaje al usuario:
+
+---
+✅ **US enriquecida y grabada en ClickUp.** Estado del ticket cambiado a **En curso**.
+
+**Siguiente paso → `/new <TICKET-ID>`**
+Esto crea la propuesta y el change de OpenSpec antes de implementar.
+
+¿Continuamos?
+
+---
+
+Esperá confirmación del usuario antes de cualquier otra acción.
+
 ## Notas
 
 - No requieras ClickUp cuando el usuario ya proporcionó el contenido completo del ticket directamente.
