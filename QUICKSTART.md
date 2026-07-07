@@ -1,10 +1,96 @@
 # Specboot — Guía rápida para desarrolladores
 
-Para quien nunca usó specboot. Resume, en orden, todos los comandos del flujo completo: instalar specboot en un proyecto y trabajar un ticket de punta a punta.
-
 **Qué es specboot:** un set de estándares (`docs/`), agentes y skills (`ai-specs/`) que le da a tu copiloto de IA (Claude/Cursor/Copilot/Gemini) un flujo de trabajo consistente basado en [OpenSpec](https://github.com/Fission-AI/OpenSpec).
 
 **Qué NO hace specboot:** el flujo termina en un Pull Request (`/commit`). Mergear ese PR y deployar dependen 100% del CI/CD propio de tu proyecto, no de specboot (ver Parte 3).
+
+---
+
+## ¿Por dónde empezás?
+
+> **¿Ya tenés specboot instalado en tu proyecto?** → Seguí los pasos de **Actualización** aquí abajo.
+>
+> **¿Es la primera vez en este proyecto?** → Saltá directo a **[Parte 1 — Instalación](#parte-1--instalación-una-sola-vez-por-proyecto)**.
+
+---
+
+## Actualización — Bajar los últimos cambios de specboot a un proyecto existente
+
+Usá esto cuando el repositorio de NUKARSOFT-SpecBoot recibió mejoras (nuevos skills, correcciones, nuevos comandos) y querés traerlos a un proyecto donde ya tenés specboot instalado, **sin perder lo que ya personalizaste** (`docs/`, `openspec/`, tu código).
+
+### Paso 1 — Abrir una terminal CMD y clonar el repositorio de specboot
+
+Abrí CMD (buscá "cmd" en el menú Inicio) y ejecutá:
+
+```
+git clone https://github.com/Nukarsoft/NUKARSOFT-SpecBoot C:\temp\nukarsoft-specboot
+```
+
+Esto descarga la versión más reciente de specboot a una carpeta temporal. Si ya tenés esa carpeta de una vez anterior, borrala primero:
+
+```
+rmdir /S /Q C:\temp\nukarsoft-specboot
+git clone https://github.com/Nukarsoft/NUKARSOFT-SpecBoot C:\temp\nukarsoft-specboot
+```
+
+### Paso 2 — (Solo la primera vez que actualizás) Copiar los comandos manualmente
+
+Si es la **primera vez que hacés una actualización** en este proyecto, el comando `/sync-specboot` puede no existir todavía en tu instalación anterior. En ese caso, copialo manualmente ahora — solo esta vez:
+
+```
+robocopy C:\temp\nukarsoft-specboot\.claude\commands C:\ruta\a\tu-proyecto\.claude\commands /E
+```
+
+Reemplazá `C:\ruta\a\tu-proyecto` con la ruta real de tu proyecto. Si ya hiciste esto alguna vez antes, saltá este paso.
+
+### Paso 3 — Navegar al proyecto y abrir Claude Code
+
+En la misma terminal CMD:
+
+```
+cd C:\ruta\a\tu-proyecto
+claude
+```
+
+Esto abre Claude Code en la raíz de tu proyecto. Esperá a que cargue completamente antes de continuar.
+
+### Paso 4 — Ejecutar /sync-specboot
+
+Dentro de Claude Code, escribí:
+
+```
+/sync-specboot
+```
+
+Claude va a:
+1. Detectar automáticamente que tenés `C:\temp\nukarsoft-specboot` disponible
+2. Mostrarte un listado de todos los archivos que cambiaron vs. tu instalación actual
+3. Preguntarte si querés aplicar los cambios y si hay algún archivo que no querés tocar
+4. Aplicar solo los cambios de infraestructura (`ai-specs/`, `.claude/commands/`, `CLAUDE.md`, etc.)
+5. **No tocar** jamás `docs/`, `openspec/` ni tu código
+
+### Paso 5 — Confirmar los cambios y cerrar Claude
+
+Cuando Claude termine de aplicar los cambios, vas a ver un resumen de qué se actualizó. Cerrá Claude Code y volvé a abrirlo para que cargue los nuevos comandos:
+
+```
+exit
+claude
+```
+
+### Paso 6 — Borrar la carpeta temporal
+
+Una vez que todo quedó aplicado, borrá la carpeta temporal:
+
+```
+rmdir /S /Q C:\temp\nukarsoft-specboot
+```
+
+### Paso 7 — Verificar que los nuevos comandos están disponibles
+
+Dentro de Claude Code escribí `/` y verificá que aparecen los comandos actualizados (por ejemplo `/security-review`, `/save-qa-report`, `/sync-specboot`). Si no aparecen, cerrá y volvé a abrir Claude Code.
+
+> ✅ **Listo.** Tu proyecto tiene la última versión de specboot. Podés seguir trabajando tickets normalmente desde la **Parte 2**.
 
 ---
 
