@@ -2,7 +2,7 @@
 
 **Qué es specboot:** un set de estándares (`docs/`), agentes y skills (`ai-specs/`) que le da a tu copiloto de IA (Claude/Cursor/Copilot/Gemini) un flujo de trabajo consistente basado en [OpenSpec](https://github.com/Fission-AI/OpenSpec).
 
-**Qué NO hace specboot:** el flujo termina en un Pull Request (`/commit`). Mergear ese PR y deployar dependen 100% del CI/CD propio de tu proyecto, no de specboot (ver Parte 3).
+**Qué NO hace specboot:** el flujo termina con el reporte de cierre (`/save-closure-report`). Mergear el PR y deployar dependen 100% del CI/CD propio de tu proyecto, no de specboot (ver Parte 3).
 
 ---
 
@@ -158,6 +158,7 @@ El motivo: si Claude implementa directo, no se generan los artefactos de OpenSpe
 | 5b | `/save-qa-report <TICKET-ID>` | Documenta el testing funcional/manual: tabla de casos de prueba ejecutados vs. criterios de aceptación, resultado por caso (PASS/FAIL/PARCIAL), links a grabaciones Loom y veredicto general. Si el veredicto es **REQUIERE CORRECCIONES**, no continuar hasta resolver los FAILs. | 📁 **Repo:** `openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-qa-report.md`<br>🔗 **ClickUp:** comentario con veredicto + documento QA creado en ClickUp |
 | 6 | `/archive <TICKET-ID>` | Archiva el change y sincroniza los specs principales. | 📁 **Repo:** `openspec/specs/<capability>/spec.md` actualizado |
 | 7 | `/commit` | Crea el commit, pushea el branch y abre (o actualiza) el PR con `gh`. Si hay ticket de ClickUp: actualiza el estado. | 📁 **Repo:** commit en el branch remoto<br>🔗 **GitHub:** PR abierto (URL en el chat)<br>🔗 **ClickUp:** estado cambiado a **En progreso** + comentario con URL del PR |
+| 8 | `/save-closure-report <TICKET-ID>` | Genera el reporte de cierre formal del ticket: verifica cada etapa del flujo SpecBoot (propose, apply, security review, verify, QA, archive, sync, commit), asigna PASS / FAIL / NO EJECUTADO a cada una y determina el veredicto final. Guarda en el repo y postea como comentario de cierre en ClickUp. **Paso obligatorio — sin este reporte el ticket no queda formalmente cerrado.** | 📁 **Repo:** `openspec/changes/<TICKET-ID>/reports/YYYY-MM-DD-closure-report.md`<br>🔗 **ClickUp:** comentario de cierre con tabla de etapas + estado del ticket cambiado a **Cerrado** |
 
 ---
 
