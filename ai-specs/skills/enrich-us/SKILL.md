@@ -31,9 +31,9 @@ Seguí estos pasos:
 6. Si la historia carece de suficiente detalle técnico para una implementación autónoma, proporcioná una versión mejorada que sea más clara, específica y concisa, alineada con el paso 5. Usá el contexto técnico del proyecto desde `@documentation`. Devolvé el resultado en markdown.
 7. El formato de salida siempre debe incluir:
    - `## Original`
-   - `## Enhanced`
+   - `## Enriquecida`
 8. La escritura en ClickUp aplica **siempre** en modo ClickUp (no es opcional):
-   - Actualizá la descripción del ticket de ClickUp reemplazando el contenido existente con la versión enriquecida completa: secciones `h2` claras `[original]` y `[enhanced]`, con todo el detalle técnico generado (campos, endpoints, archivos a modificar, criterios de aceptación, tests, requisitos no funcionales). Usá listas y fragmentos de código cuando sea útil.
+   - Actualizá la descripción del ticket de ClickUp reemplazando el contenido existente con la versión enriquecida completa: secciones `h2` claras `[original]` y `[enriquecida]`, con todo el detalle técnico generado (campos, endpoints, archivos a modificar, criterios de aceptación, tests, requisitos no funcionales). Usá listas y fragmentos de código cuando sea útil.
    - Cambiá el estado del ticket a `En curso` (independientemente del estado actual).
 
 ## Selección de Workspace de ClickUp

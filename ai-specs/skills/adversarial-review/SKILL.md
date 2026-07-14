@@ -74,33 +74,33 @@ Para cada hallazgo, indicá si la corrección corresponde a **código**, **tests
 
 Terminá con un veredicto claro:
 
-- **PASS (adversarial)**: sin bloqueantes ni mayores; menores listados opcionalmente.
-- **PASS CON VACÍOS**: solo menores, pero registrados.
-- **FAIL**: al menos un bloqueante o mayor sin resolver.
+- **APROBADO**: sin bloqueantes ni mayores; menores listados opcionalmente.
+- **APROBADO CON VACÍOS**: solo menores, pero registrados.
+- **RECHAZADO**: al menos un bloqueante o mayor sin resolver.
 
 ## Formato de salida
 
 Usá esta estructura en el chat:
 
 ```markdown
-## Adversarial review
+## Revisión adversarial
 
-**Scope**: <ticket / change / PR>
-**Sources**: <list spec paths + PR or diff reference>
+**Alcance**: <ticket / change / PR>
+**Fuentes**: <rutas de spec + referencia al PR o diff>
 
-### Spec and task alignment
+### Alineación con spec y tareas
 - ...
 
-### Findings
+### Hallazgos
 
-| Severity | Area | Finding | Evidence | Suggested fix (code / spec / tests) |
-|----------|------|---------|----------|--------------------------------------|
-| Blocker / Major / Minor | | | | |
+| Severidad | Área | Hallazgo | Evidencia | Corrección sugerida (código / spec / tests) |
+|-----------|------|----------|-----------|---------------------------------------------|
+| Bloqueante / Mayor / Menor | | | | |
 
-### Verdict
-PASS | PASS WITH GAPS | FAIL
+### Veredicto
+APROBADO | APROBADO CON VACÍOS | RECHAZADO
 
-### Recommended next steps (before archive)
+### Próximos pasos recomendados (antes de archivar)
 - ...
 ```
 
@@ -122,8 +122,8 @@ El archivo debe contener el reporte completo tal como se generó (scope, sources
 
 ### 2. Comentario en ClickUp (si aplica modo ClickUp)
 
-Si en la sesión hay un ticket de ClickUp identificado (`.claude/clickup-workspace.local.md` existe), agregá un comentario al ticket con:
-- El veredicto (`PASS` / `PASS WITH GAPS` / `FAIL`)
+Si en la sesión hay un ticket de ClickUp identificado (`.claude/clickup-workspace.local.md` existe), agregá un comentario al ticket en **español** con:
+- El veredicto (`APROBADO` / `APROBADO CON VACÍOS` / `RECHAZADO`)
 - Un resumen de los hallazgos (bloqueantes y mayores, si los hay)
 - La ruta del archivo de reporte generado en el repo
 

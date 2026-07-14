@@ -14,14 +14,20 @@ alwaysApply: true
 - **Detección de patrones**: Detectá y señalá patrones de código repetidos.
 
 ## 2. Estándares de idioma
-- **Solo inglés**: Todos los artefactos técnicos deben usar siempre inglés, incluyendo:
+
+- **Solo inglés** — artefactos técnicos internos:
     - Código (variables, funciones, clases, comentarios, mensajes de error, mensajes de log)
-    - Documentación (README, guías, docs de API)
-    - Tickets de ClickUp (títulos, descripciones, comentarios)
+    - Documentación técnica (README, guías, docs de API)
     - Esquemas de datos y nombres de bases de datos
     - Archivos de configuración y scripts
     - Mensajes de commit de Git
     - Nombres y descripciones de tests
+
+- **Solo español** — todo contenido de cara al usuario o al cliente:
+    - Tickets de ClickUp (títulos, descripciones, comentarios)
+    - Reportes generados por skills (verify report, QA report, security review, closure report, adversarial review)
+    - Texto de UI (labels, mensajes, notificaciones, errores visibles al usuario)
+    - Comunicaciones y documentos entregables al cliente
 
 ## 3. Estándares específicos
 

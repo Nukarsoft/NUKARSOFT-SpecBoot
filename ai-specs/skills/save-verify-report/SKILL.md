@@ -33,30 +33,30 @@ El archivo debe incluir:
 Formato del archivo:
 
 ```markdown
-# Verify Report — <TICKET-ID>
+# Reporte de Verificación — <TICKET-ID>
 
-**Date**: YYYY-MM-DD HH:MM
+**Fecha**: YYYY-MM-DD HH:MM
 **Change**: openspec/changes/<TICKET-ID>/
 
-## Result
+## Resultado
 
 <output completo de /verify>
 
-## Verdict
-PASS | FAIL | PARTIAL
+## Veredicto
+APROBADO | RECHAZADO | PARCIAL
 ```
 
 ### Paso 3 — Comentar en ClickUp (si aplica)
 
 Si en la sesión hay un ticket de ClickUp identificado (`.claude/clickup-workspace.local.md` existe):
 - Resolé el Workspace usando el mecanismo de selección de enrich-us.
-- Agregá un comentario al ticket con el veredicto y la ruta del archivo generado.
+- Agregá un comentario al ticket **en español** con el veredicto y la ruta del archivo generado. Ejemplo: `✅ Reporte de verificación — APROBADO`.
 
 ### Paso 4 — Confirmar al usuario
 
 Mostrá al usuario:
 - La ruta del archivo guardado
-- El veredicto resumido (PASS / FAIL / PARTIAL)
+- El veredicto resumido (APROBADO / RECHAZADO / PARCIAL)
 
 ## Notas
 
